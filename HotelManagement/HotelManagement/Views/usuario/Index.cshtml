@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Lista de Usuarios</h2>
+<ul class="listausuario">
+    @foreach (var i in ViewBag.lista)
+    {
+        <li>@i.nombre</li>
+        <ul>
+        @foreach (var r in @i.roles)
+        {   
+             <li>
+               @r.RoleName 
+             </li>   
+        }    
+        </ul>
+     }
+   
+</ul>
