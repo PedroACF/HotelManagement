@@ -127,6 +127,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\HabitacionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\usuarioController.cs" />
     <Compile Include="Models\DataClasses1.designer.cs">
@@ -134,6 +135,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataClasses1.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Habitacion.cs" />
     <Compile Include="Models\StructUser.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -248,6 +250,8 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Views\usuario\reservar_habitaciones.cshtml" />
+    <Content Include="Views\Habitacion\Index.cshtml" />
+    <Content Include="Views\Habitacion\Index3.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Models\DataClasses1.dbml.layout">
@@ -270,7 +274,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>1265</DevelopmentServerPort>
+          <DevelopmentServerPort>3855</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

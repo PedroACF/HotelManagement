@@ -81,6 +81,9 @@ namespace HotelManagement.Models
     partial void InsertUsersInRole(UsersInRole instance);
     partial void UpdateUsersInRole(UsersInRole instance);
     partial void DeleteUsersInRole(UsersInRole instance);
+    partial void Inserttip_hab(tip_hab instance);
+    partial void Updatetip_hab(tip_hab instance);
+    partial void Deletetip_hab(tip_hab instance);
     #endregion
 		
 		public DataClasses1DataContext() : 
@@ -246,6 +249,14 @@ namespace HotelManagement.Models
 			get
 			{
 				return this.GetTable<UsersInRole>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tip_hab> tip_habs
+		{
+			get
+			{
+				return this.GetTable<tip_hab>();
 			}
 		}
 	}
@@ -4270,6 +4281,92 @@ namespace HotelManagement.Models
 						this._UserId = default(System.Guid);
 					}
 					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tip_hab")]
+	public partial class tip_hab : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private string _tipo;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OntipoChanging(string value);
+    partial void OntipoChanged();
+    #endregion
+		
+		public tip_hab()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tipo", DbType="VarChar(25) NOT NULL", CanBeNull=false)]
+		public string tipo
+		{
+			get
+			{
+				return this._tipo;
+			}
+			set
+			{
+				if ((this._tipo != value))
+				{
+					this.OntipoChanging(value);
+					this.SendPropertyChanging();
+					this._tipo = value;
+					this.SendPropertyChanged("tipo");
+					this.OntipoChanged();
 				}
 			}
 		}

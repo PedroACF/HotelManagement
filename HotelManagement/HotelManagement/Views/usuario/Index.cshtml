@@ -1,20 +1,108 @@
-﻿@{
+﻿@model HotelManagement.Models.UserListRol
+
+@{
     ViewBag.Title = "Index";
 }
-
-<h2>Lista de Usuarios</h2>
-<ul class="listausuario">
-    @foreach (var i in ViewBag.lista)
-    {
-        <li>@i.nombre</li>
-        <ul>
-        @foreach (var r in @i.roles)
-        {   
-             <li>
-               @r.RoleName 
-             </li>   
-        }    
-        </ul>
-     }
-   
+<script src="~/Scripts/jquery-1.6.2.js">
+</script>
+<script>
+    $(document).ready(function () {
+        alert("sdfasdfa");
+        $(".lu li").each(function () {
+            $(this).addClass("btnUsuario");
+        });
+        $(".lr li").each(function () {
+            $(this).addClass("btnUsuario");
+        });
+        var idUs = "", idRol = "";
+        var contenedorrol;
+        $(".lu li").click(function () {
+            $(".lu li").each(function () {
+                $(this).removeClass("Seleccionado");
+            });
+            idUs = $(this).attr("idUser");
+            contenedorrol = $(".roles_" + $(this).attr("nombre"));
+            $(this).addClass("Seleccionado")
+        });
+        $(".lr li").click(function () {
+            $(".lr li").each(function () {
+                $(this).removeClass("Seleccionado");
+            });
+            idRol = $(this).attr("idRol");
+            $(this).addClass("Seleccionado")
+        });
+        $("#btnAddRol").click(function (e) {
+            e.preventDefault();
+            if (idUs != "" && idRol != "") {
+                $.post("/usuario/addrol/", { "idUs2": idUs, "idRol": idRol }, function (data) {
+                    if (data.success == "Rol Agregado") {
+                        html = "<li id='roles_us'>";
+                        html += data.rol
+                        html += "<a href='' idrolUser='" + data.idRol + "'idUs='" + data.idUs + "'>Borrar</a>";
+                        html += "</li>"
+                        contenedorrol.append(html);
+                        borradoEvent();
+                    } else {
+                        alert(data.success);
+                    }
+                }, "json");
+            } else {
+                alert("debe seleccionar un usuario y rol antes!");
+            }
+        });
+        borradoEvent();
+    });
+    function borradoEvent() {
+        $("#roles_us a").click(function (e) {
+            e.preventDefault();
+            var ir = $(this).attr("idRolUser");
+            var obj = $(this).parent();
+            $.post("/usuario/deleteRol/",
+    { idRol: ir, idUser: $(this).attr("idUs") },
+    function (data) {
+        if (data.success) {
+            obj.hide("slow");
+        }
+    }, "json");
+        });
+    }
+</script>
+<h2>Administrador de Usuarios</h2>
+<table>
+<tr>
+<td>
+    <ul class="lu">
+        @foreach (var item in ViewBag.lista) 
+        {
+            <li  idUser="@item.id" nombre="@item.nombre">@item.nombre</li>
+            <li>
+                <ul class="roles_@item.nombre">
+                @foreach (var roles in @item.ListaRoles) 
+                {
+                    <li  id="roles_us">
+                    @roles.nombre
+                        <a href="" idRolUser="@roles.id" idUs="@item.id">Borrar</a>
+                    </li>
+                }
+                </ul>
+            </li>
+        }
 </ul>
+</td>
+<td><a href="" id="btnAddRol">Agregar Rol</a>
+</td>
+<td valign="top">
+<h2>Lista de Roles</h2>
+<div >
+    <ul class="lr">
+        @foreach (var item in ViewBag.listRol)
+        { 
+            <li  idRol="@item.RoleId">
+            @item.RoleName
+            </li>
+        }
+    </ul>
+</div>
+</td>
+</tr>
+</table>

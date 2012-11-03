@@ -929,3 +929,32 @@ ul.listarol li
     margin-top:20px;
     padding:10px;
     list-style:none;
+}
+.Roles,.btnUsuario
+{
+    border-radius:3px;
+    background:black;
+    color:pink;
+    padding:3px;
+    cursor:pointer;
+}
+    .Roles,.btnUsuario a
+    {
+        color:Blue;
+    }
+.Roles:hover,.btnUsuario:hover
+{
+    border-radius:3px;
+    background:white;
+    color:blue;
+    padding:3px;
+    border-top:5px solid green;
+    cursor:pointer;
+}
+.Seleccionado
+{
+    border-radius:3px;
+    background:yellow;
+    color:brown;
+    padding:3px;
+}

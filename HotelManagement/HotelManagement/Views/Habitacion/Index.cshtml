@@ -1,0 +1,90 @@
+﻿@model HotelManagement.Models._HabitacionArray
+@{
+    ViewBag.Title = "Index2";
+}
+
+<h2>Registro de Habitacion</h2>
+<script src="~/Scripts/jquery-1.6.2.js">
+</script>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "Error:")
+    SelectListItem[] cant = new SelectListItem[10];
+    bool primera = true;
+    
+    <script type="text/javascript">
+        
+        $(document).ready(function () {
+            var lim
+
+            $("#habitacion_tam").change(function () {
+                //alert("123");
+                //alert(("#CantidadH").value);//genera error
+                //alert($(this).find('option:selected').text());
+                lim = parseInt($(this).find('option:selected').text());
+                //alert(lim);
+                for (var k = 0; k < lim; k++) {
+                    var obj = document.getElementById('_f_' + k);
+                    obj.style.display = "block";
+                }
+                for (var k = lim; k < 10; k++) {
+                    var obj = document.getElementById('_f_' + k);
+                    obj.style.display = "none";
+                }
+            });
+        });
+    </script>
+    /*for (int i = 0; i < 10; i++)
+    {
+        string aux = "_f_" + i.ToString();
+        string auxn = "habitacion.h[" + i.ToString() + "].numero";
+        string auxp = "habitacion.h[" + i.ToString() + "].precio";
+        string bux = "h[" + i.ToString() + "]";
+        
+        <div>Numero de habitacion:</div>
+        <div><input type=text name=@auxn id=habitacion.h[0]/><br/></div>
+        <div>Precio:</div>            
+        <div><input type=text name=@auxp id=habitacion.h[1]/>$us.<br/></div>        
+    }*/
+    <table id="tablita" name="tablita"> 
+
+    <tr>Cantidad de Habitaciones a registrar</tr>
+    @for (int i = 0; i < 10; i++)
+    {
+        cant[i] = new SelectListItem() { Text = (i + 1).ToString(), Value = (i + 1).ToString(), Selected = false };
+    }
+    <tr><a>@Html.DropDownList("habitacion.tam", /*ViewBag.t2 as SelectListItem[]*/cant)</a><br/></tr>
+    @Html.ValidationMessage("CourseID")
+    @for (int i = 0; i < 10; i++)
+    {
+        string aux = "_f_" + i.ToString();
+        string auxn = "habitacion.h[" + i.ToString() + "].numero";
+        string auxp = "habitacion.h[" + i.ToString() + "].precio";
+        string auxt = "habitacion.h[" + i.ToString() + "].tipo";
+        string bux = "h[" + i.ToString() + "]";
+        <tr id="@aux" @{if (primera)
+                        {
+                            primera = false;<text>style = "display:block"</text>}
+                        else
+                        {<text>style = "display:none"</text>}
+            }>
+    
+        <td>Numero de habitacion:
+        </td>
+        <td><a><input type=text name=@auxn id=@bux></a><br/>
+        </td>    
+        <td><text>Tipo de habitacion:</text><a>@Html.DropDownList(auxt, ViewBag.t as SelectListItem[])</a><br/>        
+        </td>
+        <td><a><input type=text name=@auxp id=@bux></a>$us.<br/>
+        </td>
+        </tr>
+    }
+    </table>
+       
+    <input type="submit" value="Guardar" />
+    <input type="reset" value="Cancelar" />
+
+}
+
+
+   

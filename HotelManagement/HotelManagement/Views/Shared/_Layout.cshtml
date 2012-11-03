@@ -8,7 +8,10 @@
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/themes/base/css", "~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
-
+        <link href="../../Content/themes/base/jquery.ui.all.css" rel="stylesheet" />
+        @Scripts.Render("~/bundles/jquery")
+        @RenderSection("scripts", required: false)
+        <script src="../../Scripts/jquery-ui-1.8.11.js"></script>
     </head>
     <body>
         <header>    
@@ -29,7 +32,11 @@
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                      @if (Request.IsAuthenticated == true)
                      {
-                         <li>@Html.ActionLink("Lista de Usuario", "Index", "usuario")</li>
+                         if (this.User.IsInRole("Administrador"))
+                         {
+                             <li>@Html.ActionLink("Administrar Usuarios", "Index", "usuario")</li>
+                            <li>@Html.ActionLink("Administrar Habitaciones", "Index", "Habitacion")</li>
+                         }
                          <li>@Html.ActionLink("reservas", "reservar_habitaciones", "usuario")</li>
                      }
                          </ul>
@@ -58,7 +65,6 @@
             </div>
         </footer>
 
-        @Scripts.Render("~/bundles/jquery")
-        @RenderSection("scripts", required: false)
+        
     </body>
 </html>
