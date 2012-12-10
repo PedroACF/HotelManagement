@@ -12,12 +12,13 @@
         @Scripts.Render("~/bundles/jquery")
         @RenderSection("scripts", required: false)
         <script src="../../Scripts/jquery-ui-1.8.11.js"></script>
-    </head>
+        <link href="/Content/tabla.css" rel="stylesheet" type="text/css" />
+        </head>
     <body>
         <header>    
             <div class="content-wrapper">
                 <div class="float-left">
-                    <img src="LOGOHOTEL.jpg" align="left" width=100% height=100% />
+                    <img src="LOGOHOTEL.jpg" align="left" width=100% height=25% />
                 </div>
                 <div class="float-right">
                     <section id="login">
@@ -36,8 +37,12 @@
                          {
                              <li>@Html.ActionLink("Administrar Usuarios", "Index", "usuario")</li>
                             <li>@Html.ActionLink("Administrar Habitaciones", "Index", "Habitacion")</li>
+                            <li>@Html.ActionLink("Informes de Habitaciones", "Index", "Dashboard")</li>
+                            <li>@Html.ActionLink("Exportar CVS", "exportarCsv", "cvs")</li>
+                            <li>@Html.ActionLink("Importar CVS", "upload", "cvs")</li>
                          }
-                         <li>@Html.ActionLink("reservas", "reservar_habitaciones", "usuario")</li>
+                         <li>@*Html.ActionLink("reservas", "reservar_habitaciones", "usuario")*@</li>
+                         <li>@Html.ActionLink("Reservar Habitacion", "Index", "Reservas")</li>
                      }
                          </ul>
                          </ul>

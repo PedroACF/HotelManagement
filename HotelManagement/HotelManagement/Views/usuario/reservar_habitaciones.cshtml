@@ -2,6 +2,9 @@
     ViewBag.Title = "Index";
 }
 <script>
+    $(function () {
+        $("#dialog").dialog();
+    });
     $(document).ready(function () {
         $('#tabs').tabs({
             load: function (event, ui) {
@@ -10,23 +13,22 @@
                     event.preventDefault();
                 });
             }
-        });
+        }); 
         /*
 
         $("#tabs").tabs({ "": [1, 2, 3] });
         $("#sig").click(function (e) {
-            e.preventDefault();
-            $("#tabs").tabs({ "disabled": [2] });
+        e.preventDefault();
+        $("#tabs").tabs({ "disabled": [2] });
         });
         $("#sig1").click(function (i) {
-            i.preventDefault();
-            $("#tabs").tabs({ "disabled": [3] });
+        i.preventDefault();
+        $("#tabs").tabs({ "disabled": [3] });
         });*/
     });
 </script>
 
 <h2>Index</h2>
-
         <h3>Opcion 4</h3>
         <div>
             <div id="tabs">
@@ -57,4 +59,7 @@
                 </div>
             </div>
         </div>
+</div>
+<div id="dialog" title="Basic dialog">
+    <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
 </div>

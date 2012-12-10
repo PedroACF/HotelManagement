@@ -1,0 +1,180 @@
+﻿@model HotelManagement.Models.Dashboard
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Dashboard</h2>
+<div>
+@*<div class="disponible" id="disponible"></div>*@
+<script type="text/javascript">
+$(function () {
+    $('#disponible')
+    .draggable()
+    .resizable();
+});
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //$("#fechaInicio").datepicker({ minDate: '0d' });
+        //$("#fechaInicio").datepicker($.datepicker.regional[ "es" ] );
+        });
+</script>
+
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(m => m.fechaInicio)
+    //@Html.TextBoxFor(m => m.fechaInicio)
+    @Html.TextBox("fechaInicio", String.Format("{0:d}", DateTime.Now.ToShortDateString()), new { @type = "date" })
+    <text><input type="submit" value="CambiarFecha"/></text>
+}
+
+
+<table align="center">
+    <tr>
+        <th colspan="8">
+            <b><h1>DASHBOARD</h1></b>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            <b>Hab.</b>
+        </th>
+        <th>
+            Lunes
+        </th>
+        <th>
+            Martes
+        </th>
+        <th>
+            Miercoles
+        </th>
+        <th>
+            Jueves
+        </th>
+        <th>
+            Viernes
+        </th>
+        <th>
+            Sabado
+        </th>
+        <th>
+            Domingo
+        </th>
+    </tr>
+    <tr>
+        <td></td>
+        @foreach (var f in ViewBag.fechas)
+        {
+            string x = f.ToShortDateString();
+            string x2 = f.DayOfWeek.ToString();
+            <td>
+                @x
+                @x2
+            </td>
+        }
+        
+    </tr>
+    @foreach (var item in ViewBag.info)
+    {
+        <tr>
+            <td>
+                @item.numero
+            </td>
+            @if (@item.reservas.Count > 0)
+            {
+                foreach (var rr in item.reservas)
+                {
+                    int j = 0;
+                    foreach (var ff in ViewBag.fechas)
+                    {
+                        j++;
+                        if (rr.fechainicial == ff)
+                        {
+                            <td colspan="@rr.totaldias"><div class="pintar"></div></td>
+                            continue;
+                        }
+                        else
+                        {
+                            string nombreAux = "hola" + j.ToString();
+                            <td colspan=1 id="@nombreAux"><div class="disponible" id="holaDiv"></div>
+                            <script type="text/javascript">
+                                $(function () {
+                                    $('#@nombreAux').dblclick(function () {
+                                        //alert($(this).attr('colspan'));
+                                        //alert($('#holaDiv').width());
+                                        var aux = Math.round($('#holaDiv').width() / 59);
+                                        alert(aux);
+                                    });
+                                    var i = 2;
+                                    $('#@nombreAux').click(function () {
+                                        $('#@nombreAux').attr('colspan', 7);
+                                        //$('#holaDiv').attr('width', 100);
+                                        //$('#holaDiv').redraw();
+                                        i++;
+
+                                    });
+                                });
+                                $(function () {
+                                    $('#holaDiv')//.draggable()
+                                    .resizable();
+                                    3
+                                    4				
+
+                                });
+                            </script>
+                            </td>
+                        }
+                    }
+                }
+            }
+            else
+            {
+                @*
+            int j=0;
+            string nombreAux2 = "hola2" + j.ToString();
+            <td colspan=1 id="@nombreAux2"><div class="disponible" id="holaDiv2"></div>
+            <script type="text/javascript">
+                $(function () {
+                    $('#@nombreAux2').dblclick(function () {
+                        //alert($(this).attr('colspan'));
+                        //alert($('#holaDiv').width());
+                        var aux = Math.round($('#holaDiv2').width() / 59);
+                        alert(aux);
+                    });
+                    var i = 2;
+                    $('#@nombreAux2').click(function () {
+                        if (true) {
+                            $('#@nombreAux2').attr('colspan', 'block');
+                            //$('#holaDiv').attr('width', 100);
+                            //$('#holaDiv').redraw();
+                            i++;
+                        }
+                        else {
+                            $('#@nombreAux2').attr('colspan', 'none');
+                            //$('#holaDiv').attr('width', 100);
+                            //$('#holaDiv').redraw();
+              
+                        }
+                    });
+                });
+                $(function () {
+                    $('#holaDiv2')//.draggable()
+                                    .resizable();
+
+                });
+                            </script></td>*@
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>    
+            <td></td>
+            }
+        </tr> 
+    }
+   <a href="/cvs/exportarRes"> Exportar CVS de Reservas</a>
+</table>
+</div>

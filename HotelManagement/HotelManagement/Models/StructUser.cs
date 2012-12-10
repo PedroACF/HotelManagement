@@ -5,12 +5,15 @@ using System.Web;
 
 namespace HotelManagement.Models
 {
-    /*public class StructUser
+    public class StructUser
     {
         public System.Guid id { set; get; }
         public String nombre { set; get; }
         public List<Role> roles { set; get; }
-    }*/
+        public string email { set; get; }
+        public string password { set; get; }
+        public string nit{set;get;}
+    }
     public class RolView
     {
         public Guid id { set; get; }
@@ -23,4 +26,5 @@ namespace HotelManagement.Models
         public List<RolView> ListaRoles { set; get; }
 
     }
+    
 }

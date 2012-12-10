@@ -1,8 +1,21 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="hotel" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=JUANVALLE-PC\SQLEXPRESS;Initial Catalog=hotel;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DefaultConnection" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="hotel2" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=JUANVALLE-PC\SQLEXPRESS;Initial Catalog=hotel2;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DefaultConnection" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.usuario" Member="usuarios">
+    <Type Name="usuario">
+      <Column Name="id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ciudad" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="estado" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="pais" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="nit" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="telefono" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="direccion" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="comentarios" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
+      <Association Name="User_usuario" Member="User" ThisKey="id" OtherKey="UserId" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.agencia" Member="agencias">
     <Type Name="agencia">
-      <Column Name="id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="contacto" Type="System.String" DbType="VarChar(120) NOT NULL" CanBeNull="false" />
       <Association Name="cliente_agencia" Member="cliente" ThisKey="id" OtherKey="id" Type="cliente" IsForeignKey="true" />
     </Type>
@@ -17,27 +30,16 @@
       <Association Name="Application_User" Member="Users" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="User" />
     </Type>
   </Table>
-  <Table Name="dbo.cliente" Member="clientes">
-    <Type Name="cliente">
-      <Column Name="id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="ciudad" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
-      <Column Name="estado" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
-      <Column Name="pais" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
-      <Column Name="nit" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
-      <Column Name="telefono" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
-      <Column Name="direccion" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="comentarios" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
-      <Association Name="cliente_agencia" Member="agencia" ThisKey="id" OtherKey="id" Type="agencia" Cardinality="One" />
-      <Association Name="cliente_empresa" Member="empresa" ThisKey="id" OtherKey="id" Type="empresa" Cardinality="One" />
-      <Association Name="cliente_persona" Member="persona" ThisKey="id" OtherKey="id" Type="persona" Cardinality="One" />
-      <Association Name="cliente_reserva" Member="reservas" ThisKey="id" OtherKey="idcli" Type="reserva" />
-      <Association Name="cliente_serviciousado" Member="serviciousados" ThisKey="id" OtherKey="idcli" Type="serviciousado" />
-      <Association Name="User_cliente" Member="User" ThisKey="id" OtherKey="UserId" Type="User" IsForeignKey="true" />
+  <Table Name="dbo.categoria_ser" Member="categoria_sers">
+    <Type Name="categoria_ser">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="categoria" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Association Name="categoria_ser_servicio" Member="servicios" ThisKey="id" OtherKey="categoria" Type="servicio" />
     </Type>
   </Table>
   <Table Name="dbo.empresa" Member="empresas">
     <Type Name="empresa">
-      <Column Name="id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="contacto" Type="System.String" DbType="VarChar(120) NOT NULL" CanBeNull="false" />
       <Column Name="metodopago" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
       <Association Name="cliente_empresa" Member="cliente" ThisKey="id" OtherKey="id" Type="cliente" IsForeignKey="true" />
@@ -46,28 +48,28 @@
   <Table Name="dbo.factura" Member="facturas">
     <Type Name="factura">
       <Column Name="nro" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="fecha" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="idR" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="idS" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="reserva_factura" Member="reserva" ThisKey="idR" OtherKey="id" Type="reserva" IsForeignKey="true" />
-      <Association Name="serviciousado_factura" Member="serviciousado" ThisKey="idS" OtherKey="id" Type="serviciousado" IsForeignKey="true" />
+      <Column Name="fecha" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="idreserva" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="reserva_factura" Member="reserva" ThisKey="idreserva" OtherKey="id" Type="reserva" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.habitacion" Member="habitacions">
     <Type Name="habitacion">
       <Column Name="numero" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="tipo" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="tipo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="disponibilidad" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="precio" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Association Name="habitacion_mantencione" Member="mantenciones" ThisKey="numero" OtherKey="idhab" Type="mantencione" />
-      <Association Name="habitacion_numerohabitacione" Member="numerohabitaciones" ThisKey="numero" OtherKey="numhabitacion" Type="numerohabitacione" />
+      <Association Name="habitacion_reserva" Member="reservas" ThisKey="numero" OtherKey="idHab" Type="reserva" />
+      <Association Name="tip_hab_habitacion" Member="tip_hab" ThisKey="tipo" OtherKey="id" Type="tip_hab" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.mantenciones" Member="mantenciones">
     <Type Name="mantencione">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="numerodias" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="idhab" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fecha_ini" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="fecha_fin" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Association Name="habitacion_mantencione" Member="habitacion" ThisKey="idhab" OtherKey="numero" Type="habitacion" IsForeignKey="true" />
     </Type>
   </Table>
@@ -96,21 +98,22 @@
       <Association Name="User_Membership" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.numerohabitaciones" Member="numerohabitaciones">
-    <Type Name="numerohabitacione">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="numhabitacion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="numerohabitacione_reserva" Member="reservas" ThisKey="id" OtherKey="habitaciones" Type="reserva" />
-      <Association Name="habitacion_numerohabitacione" Member="habitacion" ThisKey="numhabitacion" OtherKey="numero" Type="habitacion" IsForeignKey="true" />
+  <Table Name="dbo.pasajeros" Member="pasajeros">
+    <Type Name="pasajero">
+      <Column Name="idreser" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="idpersona" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="persona_pasajero" Member="persona" ThisKey="idpersona" OtherKey="id" Type="persona" IsForeignKey="true" />
+      <Association Name="reserva_pasajero" Member="reserva" ThisKey="idreser" OtherKey="id" Type="reserva" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.persona" Member="personas">
     <Type Name="persona">
-      <Column Name="id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="ci" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="apellido" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="cumpleaños" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="pasaporte" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="pasaporte" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Association Name="persona_pasajero" Member="pasajeros" ThisKey="id" OtherKey="idpersona" Type="pasajero" />
       <Association Name="cliente_persona" Member="cliente" ThisKey="id" OtherKey="id" Type="cliente" IsForeignKey="true" />
     </Type>
   </Table>
@@ -127,16 +130,18 @@
   <Table Name="dbo.reserva" Member="reservas">
     <Type Name="reserva">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="cant_dias" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="idusuario" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="idcli" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="idHab" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="fecha_ini" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="fecha_fin" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="pago" Type="System.Double" DbType="Float" CanBeNull="true" />
       <Column Name="estado" Type="System.String" DbType="VarChar(12) NOT NULL" CanBeNull="false" />
-      <Column Name="num_pasajeros" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="habitaciones" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="idcli" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Association Name="reserva_factura" Member="facturas" ThisKey="id" OtherKey="idR" Type="factura" />
-      <Association Name="numerohabitacione_reserva" Member="numerohabitacione" ThisKey="habitaciones" OtherKey="id" Type="numerohabitacione" IsForeignKey="true" />
+      <Column Name="pago" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Association Name="reserva_factura" Member="facturas" ThisKey="id" OtherKey="idreserva" Type="factura" />
+      <Association Name="reserva_pasajero" Member="pasajeros" ThisKey="id" OtherKey="idreser" Type="pasajero" />
+      <Association Name="reserva_serviciousado" Member="serviciousados" ThisKey="id" OtherKey="idreser" Type="serviciousado" />
+      <Association Name="habitacion_reserva" Member="habitacion" ThisKey="idHab" OtherKey="numero" Type="habitacion" IsForeignKey="true" />
+      <Association Name="User_reserva" Member="User" ThisKey="idusuario" OtherKey="UserId" Type="User" IsForeignKey="true" />
       <Association Name="cliente_reserva" Member="cliente" ThisKey="idcli" OtherKey="id" Type="cliente" IsForeignKey="true" />
     </Type>
   </Table>
@@ -153,21 +158,27 @@
   <Table Name="dbo.servicio" Member="servicios">
     <Type Name="servicio">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="nombre" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
-      <Column Name="categoria" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
-      <Column Name="descripcion" Type="System.String" DbType="VarChar(120) NOT NULL" CanBeNull="false" />
-      <Column Name="precio" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="nombre" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="categoria" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="precio" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Association Name="servicio_serviciousado" Member="serviciousados" ThisKey="id" OtherKey="idser" Type="serviciousado" />
+      <Association Name="categoria_ser_servicio" Member="categoria_ser" ThisKey="categoria" OtherKey="id" Type="categoria_ser" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.serviciousado" Member="serviciousados">
     <Type Name="serviciousado">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="idreser" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="idser" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="idcli" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Association Name="serviciousado_factura" Member="facturas" ThisKey="id" OtherKey="idS" Type="factura" />
-      <Association Name="cliente_serviciousado" Member="cliente" ThisKey="idcli" OtherKey="id" Type="cliente" IsForeignKey="true" />
+      <Column Name="cantidad" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="reserva_serviciousado" Member="reserva" ThisKey="idreser" OtherKey="id" Type="reserva" IsForeignKey="true" />
       <Association Name="servicio_serviciousado" Member="servicio" ThisKey="idser" OtherKey="id" Type="servicio" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tip_hab" Member="tip_habs">
+    <Type Name="tip_hab">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="tipo" Type="System.String" DbType="VarChar(25) NOT NULL" CanBeNull="false" />
+      <Association Name="tip_hab_habitacion" Member="habitacions" ThisKey="id" OtherKey="tipo" Type="habitacion" />
     </Type>
   </Table>
   <Table Name="dbo.Users" Member="Users">
@@ -177,9 +188,10 @@
       <Column Name="UserName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="IsAnonymous" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="LastActivityDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="User_cliente" Member="cliente" ThisKey="UserId" OtherKey="id" Type="cliente" Cardinality="One" />
+      <Association Name="User_usuario" Member="usuario" ThisKey="UserId" OtherKey="id" Type="usuario" Cardinality="One" />
       <Association Name="User_Membership" Member="Membership" ThisKey="UserId" OtherKey="UserId" Type="Membership" Cardinality="One" />
       <Association Name="User_Profile" Member="Profile" ThisKey="UserId" OtherKey="UserId" Type="Profile" Cardinality="One" />
+      <Association Name="User_reserva" Member="reservas" ThisKey="UserId" OtherKey="idusuario" Type="reserva" />
       <Association Name="User_UsersInRole" Member="UsersInRoles" ThisKey="UserId" OtherKey="UserId" Type="UsersInRole" />
       <Association Name="Application_User" Member="Application" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="Application" IsForeignKey="true" />
     </Type>
@@ -192,10 +204,35 @@
       <Association Name="User_UsersInRole" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.tip_hab" Member="tip_habs">
-    <Type Name="tip_hab">
+  <Table Name="dbo.archivo" Member="archivos">
+    <Type Name="archivo">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="tipo" Type="System.String" DbType="VarChar(25) NOT NULL" CanBeNull="false" />
+      <Column Name="ruta_fisica" Type="System.String" DbType="VarChar(256)" CanBeNull="true" />
+      <Column Name="fecha" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
+  <Table Name="dbo.cliente" Member="clientes">
+    <Type Name="cliente">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nombre" Type="System.String" DbType="VarChar(70) NOT NULL" CanBeNull="false" />
+      <Column Name="ciudad" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="estado" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="pais" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="nit" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="telefono" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="direccion" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="email" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="comentarios" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
+      <Association Name="cliente_agencia" Member="agencia" ThisKey="id" OtherKey="id" Type="agencia" Cardinality="One" />
+      <Association Name="cliente_empresa" Member="empresa" ThisKey="id" OtherKey="id" Type="empresa" Cardinality="One" />
+      <Association Name="cliente_persona" Member="persona" ThisKey="id" OtherKey="id" Type="persona" Cardinality="One" />
+      <Association Name="cliente_reserva" Member="reservas" ThisKey="id" OtherKey="idcli" Type="reserva" />
+    </Type>
+  </Table>
+  <Function Name="dbo.ocupado" Method="ocupado" IsComposable="true">
+    <Parameter Name="idHabi" Type="System.Int32" DbType="Int" />
+    <Parameter Name="fechaIni" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="fechaFin" Type="System.DateTime" DbType="Date" />
+    <Return Type="System.Boolean" />
+  </Function>
 </Database>

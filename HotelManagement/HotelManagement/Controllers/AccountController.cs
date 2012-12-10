@@ -35,6 +35,7 @@ namespace HotelManagement.Controllers
             {
                 if (a.Membership.ValidateUser(model.UserName, model.Password))
                 {
+                    
                     Session["username"]=model.UserName;
                     a.FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     if (Url.IsLocalUrl(returnUrl))
@@ -98,7 +99,7 @@ namespace HotelManagement.Controllers
                     db.SubmitChanges();
                     a.FormsAuthentication.SetAuthCookie(model.UserName, createPersistentCookie: false);
                    
-                    cliente nuevo = new Models.cliente();
+                    usuario nuevo = new Models.usuario();
                     nuevo.id = idUs;
                     nuevo.ciudad = model.Ciudad;
                     nuevo.estado=model.Estado;
@@ -107,7 +108,7 @@ namespace HotelManagement.Controllers
                     nuevo.telefono = model.telefono;
                     nuevo.direccion=model.direccion;
                     nuevo.comentarios=model.comentarios;
-                    db.clientes.InsertOnSubmit(nuevo);
+                    db.usuarios.InsertOnSubmit(nuevo);
                     db.SubmitChanges();
                     return RedirectToAction("Index", "Home");
                 }

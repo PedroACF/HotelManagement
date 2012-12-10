@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LumenWorks.Framework.IO">
+      <HintPath>D:\Ing de Sistemas\Programas IngSist\LumenWorks.Framework.IO.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -127,15 +130,23 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\cvsController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HabitacionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\modificarController.cs" />
+    <Compile Include="Controllers\modificarUsuarioController.cs" />
+    <Compile Include="Controllers\ReservasController.cs" />
     <Compile Include="Controllers\usuarioController.cs" />
+    <Compile Include="Models\ArchivoFile.cs" />
+    <Compile Include="Models\Dashboard.cs" />
     <Compile Include="Models\DataClasses1.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DataClasses1.dbml</DependentUpon>
     </Compile>
     <Compile Include="Models\Habitacion.cs" />
+    <Compile Include="Models\ReservaHab.cs" />
     <Compile Include="Models\StructUser.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -144,6 +155,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\tabla.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -233,6 +245,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="csv\" />
+    <Folder Include="download\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -252,6 +266,16 @@
     <Content Include="Views\usuario\reservar_habitaciones.cshtml" />
     <Content Include="Views\Habitacion\Index.cshtml" />
     <Content Include="Views\Habitacion\Index3.cshtml" />
+    <Content Include="Views\Reservas\Index.cshtml" />
+    <Content Include="Views\modificar\Index______.cshtml" />
+    <Content Include="Views\modificar\Index.cshtml" />
+    <Content Include="Views\Shared\_forVoid.cshtml" />
+    <Content Include="Views\modificarUsuario\Index.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\cvs\upload.cshtml" />
+    <Content Include="Views\cvs\exportarCsv.cshtml" />
+    <Content Include="Views\cvs\uploadCli.cshtml" />
+    <None Include="Views\__void.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Models\DataClasses1.dbml.layout">
@@ -274,7 +298,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>3855</DevelopmentServerPort>
+          <DevelopmentServerPort>4004</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

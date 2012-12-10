@@ -54,11 +54,12 @@ create table reserva(
 	pago float,
 	estado varchar(12) not null,
 	num_pasajeros int not null,
-	habitaciones int not null,
+	idHab int not null,
 	idcli uniqueidentifier not null,
-	foreign key(habitaciones) references numerohabitaciones(id),
+	foreign key(idHab) references habitacion(numero),
 	foreign key(idcli) references cliente(id)
 )
+insert into reserva(cant_dias,fecha_ini,fecha_fin,estado,num_pasajeros,idHab,idcli)values(2,'11-28-2012','11-30-2012','ocupado',4,'3','5494FD3A-9F91-4BDD-A416-750C29C34F7E')
 create table serviciousado(
 	id int identity(1,1) primary key,
 	idser int not null,

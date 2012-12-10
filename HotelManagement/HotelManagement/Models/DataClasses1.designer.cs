@@ -22,7 +22,7 @@ namespace HotelManagement.Models
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="hotel")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="hotel2")]
 	public partial class DataClasses1DataContext : System.Data.Linq.DataContext
 	{
 		
@@ -30,15 +30,18 @@ namespace HotelManagement.Models
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
+    partial void Insertusuario(usuario instance);
+    partial void Updateusuario(usuario instance);
+    partial void Deleteusuario(usuario instance);
     partial void Insertagencia(agencia instance);
     partial void Updateagencia(agencia instance);
     partial void Deleteagencia(agencia instance);
     partial void InsertApplication(Application instance);
     partial void UpdateApplication(Application instance);
     partial void DeleteApplication(Application instance);
-    partial void Insertcliente(cliente instance);
-    partial void Updatecliente(cliente instance);
-    partial void Deletecliente(cliente instance);
+    partial void Insertcategoria_ser(categoria_ser instance);
+    partial void Updatecategoria_ser(categoria_ser instance);
+    partial void Deletecategoria_ser(categoria_ser instance);
     partial void Insertempresa(empresa instance);
     partial void Updateempresa(empresa instance);
     partial void Deleteempresa(empresa instance);
@@ -54,9 +57,6 @@ namespace HotelManagement.Models
     partial void InsertMembership(Membership instance);
     partial void UpdateMembership(Membership instance);
     partial void DeleteMembership(Membership instance);
-    partial void Insertnumerohabitacione(numerohabitacione instance);
-    partial void Updatenumerohabitacione(numerohabitacione instance);
-    partial void Deletenumerohabitacione(numerohabitacione instance);
     partial void Insertpersona(persona instance);
     partial void Updatepersona(persona instance);
     partial void Deletepersona(persona instance);
@@ -72,18 +72,21 @@ namespace HotelManagement.Models
     partial void Insertservicio(servicio instance);
     partial void Updateservicio(servicio instance);
     partial void Deleteservicio(servicio instance);
-    partial void Insertserviciousado(serviciousado instance);
-    partial void Updateserviciousado(serviciousado instance);
-    partial void Deleteserviciousado(serviciousado instance);
+    partial void Inserttip_hab(tip_hab instance);
+    partial void Updatetip_hab(tip_hab instance);
+    partial void Deletetip_hab(tip_hab instance);
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
     partial void InsertUsersInRole(UsersInRole instance);
     partial void UpdateUsersInRole(UsersInRole instance);
     partial void DeleteUsersInRole(UsersInRole instance);
-    partial void Inserttip_hab(tip_hab instance);
-    partial void Updatetip_hab(tip_hab instance);
-    partial void Deletetip_hab(tip_hab instance);
+    partial void Insertarchivo(archivo instance);
+    partial void Updatearchivo(archivo instance);
+    partial void Deletearchivo(archivo instance);
+    partial void Insertcliente(cliente instance);
+    partial void Updatecliente(cliente instance);
+    partial void Deletecliente(cliente instance);
     #endregion
 		
 		public DataClasses1DataContext() : 
@@ -116,6 +119,14 @@ namespace HotelManagement.Models
 			OnCreated();
 		}
 		
+		public System.Data.Linq.Table<usuario> usuarios
+		{
+			get
+			{
+				return this.GetTable<usuario>();
+			}
+		}
+		
 		public System.Data.Linq.Table<agencia> agencias
 		{
 			get
@@ -132,11 +143,11 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<cliente> clientes
+		public System.Data.Linq.Table<categoria_ser> categoria_sers
 		{
 			get
 			{
-				return this.GetTable<cliente>();
+				return this.GetTable<categoria_ser>();
 			}
 		}
 		
@@ -180,11 +191,11 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<numerohabitacione> numerohabitaciones
+		public System.Data.Linq.Table<pasajero> pasajeros
 		{
 			get
 			{
-				return this.GetTable<numerohabitacione>();
+				return this.GetTable<pasajero>();
 			}
 		}
 		
@@ -236,6 +247,14 @@ namespace HotelManagement.Models
 			}
 		}
 		
+		public System.Data.Linq.Table<tip_hab> tip_habs
+		{
+			get
+			{
+				return this.GetTable<tip_hab>();
+			}
+		}
+		
 		public System.Data.Linq.Table<User> Users
 		{
 			get
@@ -252,11 +271,296 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<tip_hab> tip_habs
+		public System.Data.Linq.Table<archivo> archivos
 		{
 			get
 			{
-				return this.GetTable<tip_hab>();
+				return this.GetTable<archivo>();
+			}
+		}
+		
+		public System.Data.Linq.Table<cliente> clientes
+		{
+			get
+			{
+				return this.GetTable<cliente>();
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.ocupado", IsComposable=true)]
+		public System.Nullable<bool> ocupado([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> idHabi, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Date")] System.Nullable<System.DateTime> fechaIni, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Date")] System.Nullable<System.DateTime> fechaFin)
+		{
+			return ((System.Nullable<bool>)(this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), idHabi, fechaIni, fechaFin).ReturnValue));
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.usuario")]
+	public partial class usuario : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _id;
+		
+		private string _ciudad;
+		
+		private string _estado;
+		
+		private string _pais;
+		
+		private string _nit;
+		
+		private string _telefono;
+		
+		private string _direccion;
+		
+		private string _comentarios;
+		
+		private EntityRef<User> _User;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(System.Guid value);
+    partial void OnidChanged();
+    partial void OnciudadChanging(string value);
+    partial void OnciudadChanged();
+    partial void OnestadoChanging(string value);
+    partial void OnestadoChanged();
+    partial void OnpaisChanging(string value);
+    partial void OnpaisChanged();
+    partial void OnnitChanging(string value);
+    partial void OnnitChanged();
+    partial void OntelefonoChanging(string value);
+    partial void OntelefonoChanged();
+    partial void OndireccionChanging(string value);
+    partial void OndireccionChanged();
+    partial void OncomentariosChanging(string value);
+    partial void OncomentariosChanged();
+    #endregion
+		
+		public usuario()
+		{
+			this._User = default(EntityRef<User>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ciudad", DbType="VarChar(30) NOT NULL", CanBeNull=false)]
+		public string ciudad
+		{
+			get
+			{
+				return this._ciudad;
+			}
+			set
+			{
+				if ((this._ciudad != value))
+				{
+					this.OnciudadChanging(value);
+					this.SendPropertyChanging();
+					this._ciudad = value;
+					this.SendPropertyChanged("ciudad");
+					this.OnciudadChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_estado", DbType="VarChar(30) NOT NULL", CanBeNull=false)]
+		public string estado
+		{
+			get
+			{
+				return this._estado;
+			}
+			set
+			{
+				if ((this._estado != value))
+				{
+					this.OnestadoChanging(value);
+					this.SendPropertyChanging();
+					this._estado = value;
+					this.SendPropertyChanged("estado");
+					this.OnestadoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pais", DbType="VarChar(20) NOT NULL", CanBeNull=false)]
+		public string pais
+		{
+			get
+			{
+				return this._pais;
+			}
+			set
+			{
+				if ((this._pais != value))
+				{
+					this.OnpaisChanging(value);
+					this.SendPropertyChanging();
+					this._pais = value;
+					this.SendPropertyChanged("pais");
+					this.OnpaisChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nit", DbType="VarChar(10)")]
+		public string nit
+		{
+			get
+			{
+				return this._nit;
+			}
+			set
+			{
+				if ((this._nit != value))
+				{
+					this.OnnitChanging(value);
+					this.SendPropertyChanging();
+					this._nit = value;
+					this.SendPropertyChanged("nit");
+					this.OnnitChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_telefono", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
+		public string telefono
+		{
+			get
+			{
+				return this._telefono;
+			}
+			set
+			{
+				if ((this._telefono != value))
+				{
+					this.OntelefonoChanging(value);
+					this.SendPropertyChanging();
+					this._telefono = value;
+					this.SendPropertyChanged("telefono");
+					this.OntelefonoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_direccion", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string direccion
+		{
+			get
+			{
+				return this._direccion;
+			}
+			set
+			{
+				if ((this._direccion != value))
+				{
+					this.OndireccionChanging(value);
+					this.SendPropertyChanging();
+					this._direccion = value;
+					this.SendPropertyChanged("direccion");
+					this.OndireccionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_comentarios", DbType="VarChar(500)")]
+		public string comentarios
+		{
+			get
+			{
+				return this._comentarios;
+			}
+			set
+			{
+				if ((this._comentarios != value))
+				{
+					this.OncomentariosChanging(value);
+					this.SendPropertyChanging();
+					this._comentarios = value;
+					this.SendPropertyChanged("comentarios");
+					this.OncomentariosChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_usuario", Storage="_User", ThisKey="id", OtherKey="UserId", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.usuario = null;
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.usuario = this;
+						this._id = value.UserId;
+					}
+					else
+					{
+						this._id = default(System.Guid);
+					}
+					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}
@@ -267,7 +571,7 @@ namespace HotelManagement.Models
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private System.Guid _id;
+		private int _id;
 		
 		private string _contacto;
 		
@@ -277,7 +581,7 @@ namespace HotelManagement.Models
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnidChanging(System.Guid value);
+    partial void OnidChanging(int value);
     partial void OnidChanged();
     partial void OncontactoChanging(string value);
     partial void OncontactoChanged();
@@ -289,8 +593,8 @@ namespace HotelManagement.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int id
 		{
 			get
 			{
@@ -360,7 +664,7 @@ namespace HotelManagement.Models
 					}
 					else
 					{
-						this._id = default(System.Guid);
+						this._id = default(int);
 					}
 					this.SendPropertyChanged("cliente");
 				}
@@ -582,75 +886,36 @@ namespace HotelManagement.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.cliente")]
-	public partial class cliente : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.categoria_ser")]
+	public partial class categoria_ser : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private System.Guid _id;
+		private int _id;
 		
-		private string _ciudad;
+		private string _categoria;
 		
-		private string _estado;
-		
-		private string _pais;
-		
-		private string _nit;
-		
-		private string _telefono;
-		
-		private string _direccion;
-		
-		private string _comentarios;
-		
-		private EntityRef<agencia> _agencia;
-		
-		private EntityRef<empresa> _empresa;
-		
-		private EntityRef<persona> _persona;
-		
-		private EntitySet<reserva> _reservas;
-		
-		private EntitySet<serviciousado> _serviciousados;
-		
-		private EntityRef<User> _User;
+		private EntitySet<servicio> _servicios;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnidChanging(System.Guid value);
+    partial void OnidChanging(int value);
     partial void OnidChanged();
-    partial void OnciudadChanging(string value);
-    partial void OnciudadChanged();
-    partial void OnestadoChanging(string value);
-    partial void OnestadoChanged();
-    partial void OnpaisChanging(string value);
-    partial void OnpaisChanged();
-    partial void OnnitChanging(string value);
-    partial void OnnitChanged();
-    partial void OntelefonoChanging(string value);
-    partial void OntelefonoChanged();
-    partial void OndireccionChanging(string value);
-    partial void OndireccionChanged();
-    partial void OncomentariosChanging(string value);
-    partial void OncomentariosChanged();
+    partial void OncategoriaChanging(string value);
+    partial void OncategoriaChanged();
     #endregion
 		
-		public cliente()
+		public categoria_ser()
 		{
-			this._agencia = default(EntityRef<agencia>);
-			this._empresa = default(EntityRef<empresa>);
-			this._persona = default(EntityRef<persona>);
-			this._reservas = new EntitySet<reserva>(new Action<reserva>(this.attach_reservas), new Action<reserva>(this.detach_reservas));
-			this._serviciousados = new EntitySet<serviciousado>(new Action<serviciousado>(this.attach_serviciousados), new Action<serviciousado>(this.detach_serviciousados));
-			this._User = default(EntityRef<User>);
+			this._servicios = new EntitySet<servicio>(new Action<servicio>(this.attach_servicios), new Action<servicio>(this.detach_servicios));
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
 		{
 			get
 			{
@@ -660,10 +925,6 @@ namespace HotelManagement.Models
 			{
 				if ((this._id != value))
 				{
-					if (this._User.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnidChanging(value);
 					this.SendPropertyChanging();
 					this._id = value;
@@ -673,290 +934,36 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ciudad", DbType="VarChar(30) NOT NULL", CanBeNull=false)]
-		public string ciudad
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_categoria", DbType="VarChar(30) NOT NULL", CanBeNull=false)]
+		public string categoria
 		{
 			get
 			{
-				return this._ciudad;
+				return this._categoria;
 			}
 			set
 			{
-				if ((this._ciudad != value))
+				if ((this._categoria != value))
 				{
-					this.OnciudadChanging(value);
+					this.OncategoriaChanging(value);
 					this.SendPropertyChanging();
-					this._ciudad = value;
-					this.SendPropertyChanged("ciudad");
-					this.OnciudadChanged();
+					this._categoria = value;
+					this.SendPropertyChanged("categoria");
+					this.OncategoriaChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_estado", DbType="VarChar(30) NOT NULL", CanBeNull=false)]
-		public string estado
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="categoria_ser_servicio", Storage="_servicios", ThisKey="id", OtherKey="categoria")]
+		public EntitySet<servicio> servicios
 		{
 			get
 			{
-				return this._estado;
+				return this._servicios;
 			}
 			set
 			{
-				if ((this._estado != value))
-				{
-					this.OnestadoChanging(value);
-					this.SendPropertyChanging();
-					this._estado = value;
-					this.SendPropertyChanged("estado");
-					this.OnestadoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pais", DbType="VarChar(20) NOT NULL", CanBeNull=false)]
-		public string pais
-		{
-			get
-			{
-				return this._pais;
-			}
-			set
-			{
-				if ((this._pais != value))
-				{
-					this.OnpaisChanging(value);
-					this.SendPropertyChanging();
-					this._pais = value;
-					this.SendPropertyChanged("pais");
-					this.OnpaisChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nit", DbType="VarChar(10)")]
-		public string nit
-		{
-			get
-			{
-				return this._nit;
-			}
-			set
-			{
-				if ((this._nit != value))
-				{
-					this.OnnitChanging(value);
-					this.SendPropertyChanging();
-					this._nit = value;
-					this.SendPropertyChanged("nit");
-					this.OnnitChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_telefono", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
-		public string telefono
-		{
-			get
-			{
-				return this._telefono;
-			}
-			set
-			{
-				if ((this._telefono != value))
-				{
-					this.OntelefonoChanging(value);
-					this.SendPropertyChanging();
-					this._telefono = value;
-					this.SendPropertyChanged("telefono");
-					this.OntelefonoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_direccion", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string direccion
-		{
-			get
-			{
-				return this._direccion;
-			}
-			set
-			{
-				if ((this._direccion != value))
-				{
-					this.OndireccionChanging(value);
-					this.SendPropertyChanging();
-					this._direccion = value;
-					this.SendPropertyChanged("direccion");
-					this.OndireccionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_comentarios", DbType="VarChar(500)")]
-		public string comentarios
-		{
-			get
-			{
-				return this._comentarios;
-			}
-			set
-			{
-				if ((this._comentarios != value))
-				{
-					this.OncomentariosChanging(value);
-					this.SendPropertyChanging();
-					this._comentarios = value;
-					this.SendPropertyChanged("comentarios");
-					this.OncomentariosChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="cliente_agencia", Storage="_agencia", ThisKey="id", OtherKey="id", IsUnique=true, IsForeignKey=false)]
-		public agencia agencia
-		{
-			get
-			{
-				return this._agencia.Entity;
-			}
-			set
-			{
-				agencia previousValue = this._agencia.Entity;
-				if (((previousValue != value) 
-							|| (this._agencia.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._agencia.Entity = null;
-						previousValue.cliente = null;
-					}
-					this._agencia.Entity = value;
-					if ((value != null))
-					{
-						value.cliente = this;
-					}
-					this.SendPropertyChanged("agencia");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="cliente_empresa", Storage="_empresa", ThisKey="id", OtherKey="id", IsUnique=true, IsForeignKey=false)]
-		public empresa empresa
-		{
-			get
-			{
-				return this._empresa.Entity;
-			}
-			set
-			{
-				empresa previousValue = this._empresa.Entity;
-				if (((previousValue != value) 
-							|| (this._empresa.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._empresa.Entity = null;
-						previousValue.cliente = null;
-					}
-					this._empresa.Entity = value;
-					if ((value != null))
-					{
-						value.cliente = this;
-					}
-					this.SendPropertyChanged("empresa");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="cliente_persona", Storage="_persona", ThisKey="id", OtherKey="id", IsUnique=true, IsForeignKey=false)]
-		public persona persona
-		{
-			get
-			{
-				return this._persona.Entity;
-			}
-			set
-			{
-				persona previousValue = this._persona.Entity;
-				if (((previousValue != value) 
-							|| (this._persona.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._persona.Entity = null;
-						previousValue.cliente = null;
-					}
-					this._persona.Entity = value;
-					if ((value != null))
-					{
-						value.cliente = this;
-					}
-					this.SendPropertyChanged("persona");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="cliente_reserva", Storage="_reservas", ThisKey="id", OtherKey="idcli")]
-		public EntitySet<reserva> reservas
-		{
-			get
-			{
-				return this._reservas;
-			}
-			set
-			{
-				this._reservas.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="cliente_serviciousado", Storage="_serviciousados", ThisKey="id", OtherKey="idcli")]
-		public EntitySet<serviciousado> serviciousados
-		{
-			get
-			{
-				return this._serviciousados;
-			}
-			set
-			{
-				this._serviciousados.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_cliente", Storage="_User", ThisKey="id", OtherKey="UserId", IsForeignKey=true)]
-		public User User
-		{
-			get
-			{
-				return this._User.Entity;
-			}
-			set
-			{
-				User previousValue = this._User.Entity;
-				if (((previousValue != value) 
-							|| (this._User.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._User.Entity = null;
-						previousValue.cliente = null;
-					}
-					this._User.Entity = value;
-					if ((value != null))
-					{
-						value.cliente = this;
-						this._id = value.UserId;
-					}
-					else
-					{
-						this._id = default(System.Guid);
-					}
-					this.SendPropertyChanged("User");
-				}
+				this._servicios.Assign(value);
 			}
 		}
 		
@@ -980,28 +987,16 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		private void attach_reservas(reserva entity)
+		private void attach_servicios(servicio entity)
 		{
 			this.SendPropertyChanging();
-			entity.cliente = this;
+			entity.categoria_ser = this;
 		}
 		
-		private void detach_reservas(reserva entity)
+		private void detach_servicios(servicio entity)
 		{
 			this.SendPropertyChanging();
-			entity.cliente = null;
-		}
-		
-		private void attach_serviciousados(serviciousado entity)
-		{
-			this.SendPropertyChanging();
-			entity.cliente = this;
-		}
-		
-		private void detach_serviciousados(serviciousado entity)
-		{
-			this.SendPropertyChanging();
-			entity.cliente = null;
+			entity.categoria_ser = null;
 		}
 	}
 	
@@ -1011,7 +1006,7 @@ namespace HotelManagement.Models
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private System.Guid _id;
+		private int _id;
 		
 		private string _contacto;
 		
@@ -1023,7 +1018,7 @@ namespace HotelManagement.Models
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnidChanging(System.Guid value);
+    partial void OnidChanging(int value);
     partial void OnidChanged();
     partial void OncontactoChanging(string value);
     partial void OncontactoChanged();
@@ -1037,8 +1032,8 @@ namespace HotelManagement.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int id
 		{
 			get
 			{
@@ -1128,7 +1123,7 @@ namespace HotelManagement.Models
 					}
 					else
 					{
-						this._id = default(System.Guid);
+						this._id = default(int);
 					}
 					this.SendPropertyChanged("cliente");
 				}
@@ -1166,13 +1161,9 @@ namespace HotelManagement.Models
 		
 		private System.DateTime _fecha;
 		
-		private int _idR;
-		
-		private int _idS;
+		private int _idreserva;
 		
 		private EntityRef<reserva> _reserva;
-		
-		private EntityRef<serviciousado> _serviciousado;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1182,16 +1173,13 @@ namespace HotelManagement.Models
     partial void OnnroChanged();
     partial void OnfechaChanging(System.DateTime value);
     partial void OnfechaChanged();
-    partial void OnidRChanging(int value);
-    partial void OnidRChanged();
-    partial void OnidSChanging(int value);
-    partial void OnidSChanged();
+    partial void OnidreservaChanging(int value);
+    partial void OnidreservaChanged();
     #endregion
 		
 		public factura()
 		{
 			this._reserva = default(EntityRef<reserva>);
-			this._serviciousado = default(EntityRef<serviciousado>);
 			OnCreated();
 		}
 		
@@ -1215,7 +1203,7 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fecha", DbType="Date NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fecha", DbType="DateTime NOT NULL")]
 		public System.DateTime fecha
 		{
 			get
@@ -1235,55 +1223,31 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idR", DbType="Int NOT NULL")]
-		public int idR
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idreserva", DbType="Int NOT NULL")]
+		public int idreserva
 		{
 			get
 			{
-				return this._idR;
+				return this._idreserva;
 			}
 			set
 			{
-				if ((this._idR != value))
+				if ((this._idreserva != value))
 				{
 					if (this._reserva.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnidRChanging(value);
+					this.OnidreservaChanging(value);
 					this.SendPropertyChanging();
-					this._idR = value;
-					this.SendPropertyChanged("idR");
-					this.OnidRChanged();
+					this._idreserva = value;
+					this.SendPropertyChanged("idreserva");
+					this.OnidreservaChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idS", DbType="Int NOT NULL")]
-		public int idS
-		{
-			get
-			{
-				return this._idS;
-			}
-			set
-			{
-				if ((this._idS != value))
-				{
-					if (this._serviciousado.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnidSChanging(value);
-					this.SendPropertyChanging();
-					this._idS = value;
-					this.SendPropertyChanged("idS");
-					this.OnidSChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="reserva_factura", Storage="_reserva", ThisKey="idR", OtherKey="id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="reserva_factura", Storage="_reserva", ThisKey="idreserva", OtherKey="id", IsForeignKey=true)]
 		public reserva reserva
 		{
 			get
@@ -1306,47 +1270,13 @@ namespace HotelManagement.Models
 					if ((value != null))
 					{
 						value.facturas.Add(this);
-						this._idR = value.id;
+						this._idreserva = value.id;
 					}
 					else
 					{
-						this._idR = default(int);
+						this._idreserva = default(int);
 					}
 					this.SendPropertyChanged("reserva");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="serviciousado_factura", Storage="_serviciousado", ThisKey="idS", OtherKey="id", IsForeignKey=true)]
-		public serviciousado serviciousado
-		{
-			get
-			{
-				return this._serviciousado.Entity;
-			}
-			set
-			{
-				serviciousado previousValue = this._serviciousado.Entity;
-				if (((previousValue != value) 
-							|| (this._serviciousado.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._serviciousado.Entity = null;
-						previousValue.facturas.Remove(this);
-					}
-					this._serviciousado.Entity = value;
-					if ((value != null))
-					{
-						value.facturas.Add(this);
-						this._idS = value.id;
-					}
-					else
-					{
-						this._idS = default(int);
-					}
-					this.SendPropertyChanged("serviciousado");
 				}
 			}
 		}
@@ -1380,7 +1310,7 @@ namespace HotelManagement.Models
 		
 		private int _numero;
 		
-		private string _tipo;
+		private int _tipo;
 		
 		private bool _disponibilidad;
 		
@@ -1388,7 +1318,9 @@ namespace HotelManagement.Models
 		
 		private EntitySet<mantencione> _mantenciones;
 		
-		private EntitySet<numerohabitacione> _numerohabitaciones;
+		private EntitySet<reserva> _reservas;
+		
+		private EntityRef<tip_hab> _tip_hab;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1396,7 +1328,7 @@ namespace HotelManagement.Models
     partial void OnCreated();
     partial void OnnumeroChanging(int value);
     partial void OnnumeroChanged();
-    partial void OntipoChanging(string value);
+    partial void OntipoChanging(int value);
     partial void OntipoChanged();
     partial void OndisponibilidadChanging(bool value);
     partial void OndisponibilidadChanged();
@@ -1407,7 +1339,8 @@ namespace HotelManagement.Models
 		public habitacion()
 		{
 			this._mantenciones = new EntitySet<mantencione>(new Action<mantencione>(this.attach_mantenciones), new Action<mantencione>(this.detach_mantenciones));
-			this._numerohabitaciones = new EntitySet<numerohabitacione>(new Action<numerohabitacione>(this.attach_numerohabitaciones), new Action<numerohabitacione>(this.detach_numerohabitaciones));
+			this._reservas = new EntitySet<reserva>(new Action<reserva>(this.attach_reservas), new Action<reserva>(this.detach_reservas));
+			this._tip_hab = default(EntityRef<tip_hab>);
 			OnCreated();
 		}
 		
@@ -1431,8 +1364,8 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tipo", DbType="VarChar(30)")]
-		public string tipo
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tipo", DbType="Int NOT NULL")]
+		public int tipo
 		{
 			get
 			{
@@ -1442,6 +1375,10 @@ namespace HotelManagement.Models
 			{
 				if ((this._tipo != value))
 				{
+					if (this._tip_hab.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OntipoChanging(value);
 					this.SendPropertyChanging();
 					this._tipo = value;
@@ -1504,16 +1441,50 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="habitacion_numerohabitacione", Storage="_numerohabitaciones", ThisKey="numero", OtherKey="numhabitacion")]
-		public EntitySet<numerohabitacione> numerohabitaciones
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="habitacion_reserva", Storage="_reservas", ThisKey="numero", OtherKey="idHab")]
+		public EntitySet<reserva> reservas
 		{
 			get
 			{
-				return this._numerohabitaciones;
+				return this._reservas;
 			}
 			set
 			{
-				this._numerohabitaciones.Assign(value);
+				this._reservas.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tip_hab_habitacion", Storage="_tip_hab", ThisKey="tipo", OtherKey="id", IsForeignKey=true)]
+		public tip_hab tip_hab
+		{
+			get
+			{
+				return this._tip_hab.Entity;
+			}
+			set
+			{
+				tip_hab previousValue = this._tip_hab.Entity;
+				if (((previousValue != value) 
+							|| (this._tip_hab.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tip_hab.Entity = null;
+						previousValue.habitacions.Remove(this);
+					}
+					this._tip_hab.Entity = value;
+					if ((value != null))
+					{
+						value.habitacions.Add(this);
+						this._tipo = value.id;
+					}
+					else
+					{
+						this._tipo = default(int);
+					}
+					this.SendPropertyChanged("tip_hab");
+				}
 			}
 		}
 		
@@ -1549,13 +1520,13 @@ namespace HotelManagement.Models
 			entity.habitacion = null;
 		}
 		
-		private void attach_numerohabitaciones(numerohabitacione entity)
+		private void attach_reservas(reserva entity)
 		{
 			this.SendPropertyChanging();
 			entity.habitacion = this;
 		}
 		
-		private void detach_numerohabitaciones(numerohabitacione entity)
+		private void detach_reservas(reserva entity)
 		{
 			this.SendPropertyChanging();
 			entity.habitacion = null;
@@ -1570,9 +1541,11 @@ namespace HotelManagement.Models
 		
 		private int _id;
 		
-		private int _numerodias;
-		
 		private int _idhab;
+		
+		private System.DateTime _fecha_ini;
+		
+		private System.DateTime _fecha_fin;
 		
 		private EntityRef<habitacion> _habitacion;
 		
@@ -1582,10 +1555,12 @@ namespace HotelManagement.Models
     partial void OnCreated();
     partial void OnidChanging(int value);
     partial void OnidChanged();
-    partial void OnnumerodiasChanging(int value);
-    partial void OnnumerodiasChanged();
     partial void OnidhabChanging(int value);
     partial void OnidhabChanged();
+    partial void Onfecha_iniChanging(System.DateTime value);
+    partial void Onfecha_iniChanged();
+    partial void Onfecha_finChanging(System.DateTime value);
+    partial void Onfecha_finChanged();
     #endregion
 		
 		public mantencione()
@@ -1614,26 +1589,6 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_numerodias", DbType="Int NOT NULL")]
-		public int numerodias
-		{
-			get
-			{
-				return this._numerodias;
-			}
-			set
-			{
-				if ((this._numerodias != value))
-				{
-					this.OnnumerodiasChanging(value);
-					this.SendPropertyChanging();
-					this._numerodias = value;
-					this.SendPropertyChanged("numerodias");
-					this.OnnumerodiasChanged();
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idhab", DbType="Int NOT NULL")]
 		public int idhab
 		{
@@ -1654,6 +1609,46 @@ namespace HotelManagement.Models
 					this._idhab = value;
 					this.SendPropertyChanged("idhab");
 					this.OnidhabChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fecha_ini", DbType="Date NOT NULL")]
+		public System.DateTime fecha_ini
+		{
+			get
+			{
+				return this._fecha_ini;
+			}
+			set
+			{
+				if ((this._fecha_ini != value))
+				{
+					this.Onfecha_iniChanging(value);
+					this.SendPropertyChanging();
+					this._fecha_ini = value;
+					this.SendPropertyChanged("fecha_ini");
+					this.Onfecha_iniChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fecha_fin", DbType="Date NOT NULL")]
+		public System.DateTime fecha_fin
+		{
+			get
+			{
+				return this._fecha_fin;
+			}
+			set
+			{
+				if ((this._fecha_fin != value))
+				{
+					this.Onfecha_finChanging(value);
+					this.SendPropertyChanging();
+					this._fecha_fin = value;
+					this.SendPropertyChanged("fecha_fin");
+					this.Onfecha_finChanged();
 				}
 			}
 		}
@@ -2289,158 +2284,48 @@ namespace HotelManagement.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.numerohabitaciones")]
-	public partial class numerohabitacione : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.pasajeros")]
+	public partial class pasajero
 	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		private int _idreser;
 		
-		private int _id;
+		private int _idpersona;
 		
-		private int _numhabitacion;
-		
-		private EntitySet<reserva> _reservas;
-		
-		private EntityRef<habitacion> _habitacion;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void OnnumhabitacionChanging(int value);
-    partial void OnnumhabitacionChanged();
-    #endregion
-		
-		public numerohabitacione()
+		public pasajero()
 		{
-			this._reservas = new EntitySet<reserva>(new Action<reserva>(this.attach_reservas), new Action<reserva>(this.detach_reservas));
-			this._habitacion = default(EntityRef<habitacion>);
-			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idreser", DbType="Int NOT NULL")]
+		public int idreser
 		{
 			get
 			{
-				return this._id;
+				return this._idreser;
 			}
 			set
 			{
-				if ((this._id != value))
+				if ((this._idreser != value))
 				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
+					this._idreser = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_numhabitacion", DbType="Int NOT NULL")]
-		public int numhabitacion
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idpersona", DbType="Int NOT NULL")]
+		public int idpersona
 		{
 			get
 			{
-				return this._numhabitacion;
+				return this._idpersona;
 			}
 			set
 			{
-				if ((this._numhabitacion != value))
+				if ((this._idpersona != value))
 				{
-					if (this._habitacion.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnnumhabitacionChanging(value);
-					this.SendPropertyChanging();
-					this._numhabitacion = value;
-					this.SendPropertyChanged("numhabitacion");
-					this.OnnumhabitacionChanged();
+					this._idpersona = value;
 				}
 			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="numerohabitacione_reserva", Storage="_reservas", ThisKey="id", OtherKey="habitaciones")]
-		public EntitySet<reserva> reservas
-		{
-			get
-			{
-				return this._reservas;
-			}
-			set
-			{
-				this._reservas.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="habitacion_numerohabitacione", Storage="_habitacion", ThisKey="numhabitacion", OtherKey="numero", IsForeignKey=true)]
-		public habitacion habitacion
-		{
-			get
-			{
-				return this._habitacion.Entity;
-			}
-			set
-			{
-				habitacion previousValue = this._habitacion.Entity;
-				if (((previousValue != value) 
-							|| (this._habitacion.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._habitacion.Entity = null;
-						previousValue.numerohabitaciones.Remove(this);
-					}
-					this._habitacion.Entity = value;
-					if ((value != null))
-					{
-						value.numerohabitaciones.Add(this);
-						this._numhabitacion = value.numero;
-					}
-					else
-					{
-						this._numhabitacion = default(int);
-					}
-					this.SendPropertyChanged("habitacion");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_reservas(reserva entity)
-		{
-			this.SendPropertyChanging();
-			entity.numerohabitacione = this;
-		}
-		
-		private void detach_reservas(reserva entity)
-		{
-			this.SendPropertyChanging();
-			entity.numerohabitacione = null;
 		}
 	}
 	
@@ -2450,7 +2335,7 @@ namespace HotelManagement.Models
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private System.Guid _id;
+		private int _id;
 		
 		private int _ci;
 		
@@ -2458,7 +2343,7 @@ namespace HotelManagement.Models
 		
 		private System.DateTime _cumpleaños;
 		
-		private System.Nullable<int> _pasaporte;
+		private string _pasaporte;
 		
 		private EntityRef<cliente> _cliente;
 		
@@ -2466,7 +2351,7 @@ namespace HotelManagement.Models
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnidChanging(System.Guid value);
+    partial void OnidChanging(int value);
     partial void OnidChanged();
     partial void OnciChanging(int value);
     partial void OnciChanged();
@@ -2474,7 +2359,7 @@ namespace HotelManagement.Models
     partial void OnapellidoChanged();
     partial void OncumpleañosChanging(System.DateTime value);
     partial void OncumpleañosChanged();
-    partial void OnpasaporteChanging(System.Nullable<int> value);
+    partial void OnpasaporteChanging(string value);
     partial void OnpasaporteChanged();
     #endregion
 		
@@ -2484,8 +2369,8 @@ namespace HotelManagement.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int id
 		{
 			get
 			{
@@ -2568,8 +2453,8 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pasaporte", DbType="Int")]
-		public System.Nullable<int> pasaporte
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pasaporte", DbType="VarChar(30) NOT NULL", CanBeNull=false)]
+		public string pasaporte
 		{
 			get
 			{
@@ -2615,7 +2500,7 @@ namespace HotelManagement.Models
 					}
 					else
 					{
-						this._id = default(System.Guid);
+						this._id = default(int);
 					}
 					this.SendPropertyChanged("cliente");
 				}
@@ -2850,25 +2735,25 @@ namespace HotelManagement.Models
 		
 		private int _id;
 		
-		private int _cant_dias;
+		private System.Guid _idusuario;
+		
+		private int _idcli;
+		
+		private int _idHab;
 		
 		private System.DateTime _fecha_ini;
 		
 		private System.DateTime _fecha_fin;
 		
-		private System.Nullable<double> _pago;
-		
 		private string _estado;
 		
-		private int _num_pasajeros;
-		
-		private int _habitaciones;
-		
-		private System.Guid _idcli;
+		private System.Nullable<double> _pago;
 		
 		private EntitySet<factura> _facturas;
 		
-		private EntityRef<numerohabitacione> _numerohabitacione;
+		private EntityRef<habitacion> _habitacion;
+		
+		private EntityRef<User> _User;
 		
 		private EntityRef<cliente> _cliente;
 		
@@ -2878,28 +2763,27 @@ namespace HotelManagement.Models
     partial void OnCreated();
     partial void OnidChanging(int value);
     partial void OnidChanged();
-    partial void Oncant_diasChanging(int value);
-    partial void Oncant_diasChanged();
+    partial void OnidusuarioChanging(System.Guid value);
+    partial void OnidusuarioChanged();
+    partial void OnidcliChanging(int value);
+    partial void OnidcliChanged();
+    partial void OnidHabChanging(int value);
+    partial void OnidHabChanged();
     partial void Onfecha_iniChanging(System.DateTime value);
     partial void Onfecha_iniChanged();
     partial void Onfecha_finChanging(System.DateTime value);
     partial void Onfecha_finChanged();
-    partial void OnpagoChanging(System.Nullable<double> value);
-    partial void OnpagoChanged();
     partial void OnestadoChanging(string value);
     partial void OnestadoChanged();
-    partial void Onnum_pasajerosChanging(int value);
-    partial void Onnum_pasajerosChanged();
-    partial void OnhabitacionesChanging(int value);
-    partial void OnhabitacionesChanged();
-    partial void OnidcliChanging(System.Guid value);
-    partial void OnidcliChanged();
+    partial void OnpagoChanging(System.Nullable<double> value);
+    partial void OnpagoChanged();
     #endregion
 		
 		public reserva()
 		{
 			this._facturas = new EntitySet<factura>(new Action<factura>(this.attach_facturas), new Action<factura>(this.detach_facturas));
-			this._numerohabitacione = default(EntityRef<numerohabitacione>);
+			this._habitacion = default(EntityRef<habitacion>);
+			this._User = default(EntityRef<User>);
 			this._cliente = default(EntityRef<cliente>);
 			OnCreated();
 		}
@@ -2924,22 +2808,74 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cant_dias", DbType="Int NOT NULL")]
-		public int cant_dias
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idusuario", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid idusuario
 		{
 			get
 			{
-				return this._cant_dias;
+				return this._idusuario;
 			}
 			set
 			{
-				if ((this._cant_dias != value))
+				if ((this._idusuario != value))
 				{
-					this.Oncant_diasChanging(value);
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnidusuarioChanging(value);
 					this.SendPropertyChanging();
-					this._cant_dias = value;
-					this.SendPropertyChanged("cant_dias");
-					this.Oncant_diasChanged();
+					this._idusuario = value;
+					this.SendPropertyChanged("idusuario");
+					this.OnidusuarioChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idcli", DbType="Int NOT NULL")]
+		public int idcli
+		{
+			get
+			{
+				return this._idcli;
+			}
+			set
+			{
+				if ((this._idcli != value))
+				{
+					if (this._cliente.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnidcliChanging(value);
+					this.SendPropertyChanging();
+					this._idcli = value;
+					this.SendPropertyChanged("idcli");
+					this.OnidcliChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idHab", DbType="Int NOT NULL")]
+		public int idHab
+		{
+			get
+			{
+				return this._idHab;
+			}
+			set
+			{
+				if ((this._idHab != value))
+				{
+					if (this._habitacion.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnidHabChanging(value);
+					this.SendPropertyChanging();
+					this._idHab = value;
+					this.SendPropertyChanged("idHab");
+					this.OnidHabChanged();
 				}
 			}
 		}
@@ -2984,26 +2920,6 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pago", DbType="Float")]
-		public System.Nullable<double> pago
-		{
-			get
-			{
-				return this._pago;
-			}
-			set
-			{
-				if ((this._pago != value))
-				{
-					this.OnpagoChanging(value);
-					this.SendPropertyChanging();
-					this._pago = value;
-					this.SendPropertyChanged("pago");
-					this.OnpagoChanged();
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_estado", DbType="VarChar(12) NOT NULL", CanBeNull=false)]
 		public string estado
 		{
@@ -3024,75 +2940,27 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_num_pasajeros", DbType="Int NOT NULL")]
-		public int num_pasajeros
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pago", DbType="Float")]
+		public System.Nullable<double> pago
 		{
 			get
 			{
-				return this._num_pasajeros;
+				return this._pago;
 			}
 			set
 			{
-				if ((this._num_pasajeros != value))
+				if ((this._pago != value))
 				{
-					this.Onnum_pasajerosChanging(value);
+					this.OnpagoChanging(value);
 					this.SendPropertyChanging();
-					this._num_pasajeros = value;
-					this.SendPropertyChanged("num_pasajeros");
-					this.Onnum_pasajerosChanged();
+					this._pago = value;
+					this.SendPropertyChanged("pago");
+					this.OnpagoChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_habitaciones", DbType="Int NOT NULL")]
-		public int habitaciones
-		{
-			get
-			{
-				return this._habitaciones;
-			}
-			set
-			{
-				if ((this._habitaciones != value))
-				{
-					if (this._numerohabitacione.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnhabitacionesChanging(value);
-					this.SendPropertyChanging();
-					this._habitaciones = value;
-					this.SendPropertyChanged("habitaciones");
-					this.OnhabitacionesChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idcli", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid idcli
-		{
-			get
-			{
-				return this._idcli;
-			}
-			set
-			{
-				if ((this._idcli != value))
-				{
-					if (this._cliente.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnidcliChanging(value);
-					this.SendPropertyChanging();
-					this._idcli = value;
-					this.SendPropertyChanged("idcli");
-					this.OnidcliChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="reserva_factura", Storage="_facturas", ThisKey="id", OtherKey="idR")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="reserva_factura", Storage="_facturas", ThisKey="id", OtherKey="idreserva")]
 		public EntitySet<factura> facturas
 		{
 			get
@@ -3105,36 +2973,70 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="numerohabitacione_reserva", Storage="_numerohabitacione", ThisKey="habitaciones", OtherKey="id", IsForeignKey=true)]
-		public numerohabitacione numerohabitacione
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="habitacion_reserva", Storage="_habitacion", ThisKey="idHab", OtherKey="numero", IsForeignKey=true)]
+		public habitacion habitacion
 		{
 			get
 			{
-				return this._numerohabitacione.Entity;
+				return this._habitacion.Entity;
 			}
 			set
 			{
-				numerohabitacione previousValue = this._numerohabitacione.Entity;
+				habitacion previousValue = this._habitacion.Entity;
 				if (((previousValue != value) 
-							|| (this._numerohabitacione.HasLoadedOrAssignedValue == false)))
+							|| (this._habitacion.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._numerohabitacione.Entity = null;
+						this._habitacion.Entity = null;
 						previousValue.reservas.Remove(this);
 					}
-					this._numerohabitacione.Entity = value;
+					this._habitacion.Entity = value;
 					if ((value != null))
 					{
 						value.reservas.Add(this);
-						this._habitaciones = value.id;
+						this._idHab = value.numero;
 					}
 					else
 					{
-						this._habitaciones = default(int);
+						this._idHab = default(int);
 					}
-					this.SendPropertyChanged("numerohabitacione");
+					this.SendPropertyChanged("habitacion");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_reserva", Storage="_User", ThisKey="idusuario", OtherKey="UserId", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.reservas.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.reservas.Add(this);
+						this._idusuario = value.UserId;
+					}
+					else
+					{
+						this._idusuario = default(System.Guid);
+					}
+					this.SendPropertyChanged("User");
 				}
 			}
 		}
@@ -3166,7 +3068,7 @@ namespace HotelManagement.Models
 					}
 					else
 					{
-						this._idcli = default(System.Guid);
+						this._idcli = default(int);
 					}
 					this.SendPropertyChanged("cliente");
 				}
@@ -3419,13 +3321,11 @@ namespace HotelManagement.Models
 		
 		private string _nombre;
 		
-		private string _categoria;
+		private int _categoria;
 		
-		private string _descripcion;
+		private double _precio;
 		
-		private System.Nullable<double> _precio;
-		
-		private EntitySet<serviciousado> _serviciousados;
+		private EntityRef<categoria_ser> _categoria_ser;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -3435,17 +3335,15 @@ namespace HotelManagement.Models
     partial void OnidChanged();
     partial void OnnombreChanging(string value);
     partial void OnnombreChanged();
-    partial void OncategoriaChanging(string value);
+    partial void OncategoriaChanging(int value);
     partial void OncategoriaChanged();
-    partial void OndescripcionChanging(string value);
-    partial void OndescripcionChanged();
-    partial void OnprecioChanging(System.Nullable<double> value);
+    partial void OnprecioChanging(double value);
     partial void OnprecioChanged();
     #endregion
 		
 		public servicio()
 		{
-			this._serviciousados = new EntitySet<serviciousado>(new Action<serviciousado>(this.attach_serviciousados), new Action<serviciousado>(this.detach_serviciousados));
+			this._categoria_ser = default(EntityRef<categoria_ser>);
 			OnCreated();
 		}
 		
@@ -3469,7 +3367,7 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nombre", DbType="VarChar(30) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nombre", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
 		public string nombre
 		{
 			get
@@ -3489,8 +3387,8 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_categoria", DbType="VarChar(30) NOT NULL", CanBeNull=false)]
-		public string categoria
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_categoria", DbType="Int NOT NULL")]
+		public int categoria
 		{
 			get
 			{
@@ -3500,6 +3398,10 @@ namespace HotelManagement.Models
 			{
 				if ((this._categoria != value))
 				{
+					if (this._categoria_ser.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OncategoriaChanging(value);
 					this.SendPropertyChanging();
 					this._categoria = value;
@@ -3509,28 +3411,8 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_descripcion", DbType="VarChar(120) NOT NULL", CanBeNull=false)]
-		public string descripcion
-		{
-			get
-			{
-				return this._descripcion;
-			}
-			set
-			{
-				if ((this._descripcion != value))
-				{
-					this.OndescripcionChanging(value);
-					this.SendPropertyChanging();
-					this._descripcion = value;
-					this.SendPropertyChanged("descripcion");
-					this.OndescripcionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_precio", DbType="Float")]
-		public System.Nullable<double> precio
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_precio", DbType="Float NOT NULL")]
+		public double precio
 		{
 			get
 			{
@@ -3549,16 +3431,37 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="servicio_serviciousado", Storage="_serviciousados", ThisKey="id", OtherKey="idser")]
-		public EntitySet<serviciousado> serviciousados
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="categoria_ser_servicio", Storage="_categoria_ser", ThisKey="categoria", OtherKey="id", IsForeignKey=true)]
+		public categoria_ser categoria_ser
 		{
 			get
 			{
-				return this._serviciousados;
+				return this._categoria_ser.Entity;
 			}
 			set
 			{
-				this._serviciousados.Assign(value);
+				categoria_ser previousValue = this._categoria_ser.Entity;
+				if (((previousValue != value) 
+							|| (this._categoria_ser.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._categoria_ser.Entity = null;
+						previousValue.servicios.Remove(this);
+					}
+					this._categoria_ser.Entity = value;
+					if ((value != null))
+					{
+						value.servicios.Add(this);
+						this._categoria = value.id;
+					}
+					else
+					{
+						this._categoria = default(int);
+					}
+					this.SendPropertyChanged("categoria_ser");
+				}
 			}
 		}
 		
@@ -3581,37 +3484,82 @@ namespace HotelManagement.Models
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
-		
-		private void attach_serviciousados(serviciousado entity)
-		{
-			this.SendPropertyChanging();
-			entity.servicio = this;
-		}
-		
-		private void detach_serviciousados(serviciousado entity)
-		{
-			this.SendPropertyChanging();
-			entity.servicio = null;
-		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.serviciousado")]
-	public partial class serviciousado : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class serviciousado
+	{
+		
+		private int _idreser;
+		
+		private int _idser;
+		
+		private int _cantidad;
+		
+		public serviciousado()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idreser", DbType="Int NOT NULL")]
+		public int idreser
+		{
+			get
+			{
+				return this._idreser;
+			}
+			set
+			{
+				if ((this._idreser != value))
+				{
+					this._idreser = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idser", DbType="Int NOT NULL")]
+		public int idser
+		{
+			get
+			{
+				return this._idser;
+			}
+			set
+			{
+				if ((this._idser != value))
+				{
+					this._idser = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cantidad", DbType="Int NOT NULL")]
+		public int cantidad
+		{
+			get
+			{
+				return this._cantidad;
+			}
+			set
+			{
+				if ((this._cantidad != value))
+				{
+					this._cantidad = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tip_hab")]
+	public partial class tip_hab : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private int _id;
 		
-		private int _idser;
+		private string _tipo;
 		
-		private System.Guid _idcli;
-		
-		private EntitySet<factura> _facturas;
-		
-		private EntityRef<cliente> _cliente;
-		
-		private EntityRef<servicio> _servicio;
+		private EntitySet<habitacion> _habitacions;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -3619,17 +3567,13 @@ namespace HotelManagement.Models
     partial void OnCreated();
     partial void OnidChanging(int value);
     partial void OnidChanged();
-    partial void OnidserChanging(int value);
-    partial void OnidserChanged();
-    partial void OnidcliChanging(System.Guid value);
-    partial void OnidcliChanged();
+    partial void OntipoChanging(string value);
+    partial void OntipoChanged();
     #endregion
 		
-		public serviciousado()
+		public tip_hab()
 		{
-			this._facturas = new EntitySet<factura>(new Action<factura>(this.attach_facturas), new Action<factura>(this.detach_facturas));
-			this._cliente = default(EntityRef<cliente>);
-			this._servicio = default(EntityRef<servicio>);
+			this._habitacions = new EntitySet<habitacion>(new Action<habitacion>(this.attach_habitacions), new Action<habitacion>(this.detach_habitacions));
 			OnCreated();
 		}
 		
@@ -3653,132 +3597,36 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idser", DbType="Int NOT NULL")]
-		public int idser
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tipo", DbType="VarChar(25) NOT NULL", CanBeNull=false)]
+		public string tipo
 		{
 			get
 			{
-				return this._idser;
+				return this._tipo;
 			}
 			set
 			{
-				if ((this._idser != value))
+				if ((this._tipo != value))
 				{
-					if (this._servicio.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnidserChanging(value);
+					this.OntipoChanging(value);
 					this.SendPropertyChanging();
-					this._idser = value;
-					this.SendPropertyChanged("idser");
-					this.OnidserChanged();
+					this._tipo = value;
+					this.SendPropertyChanged("tipo");
+					this.OntipoChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idcli", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid idcli
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tip_hab_habitacion", Storage="_habitacions", ThisKey="id", OtherKey="tipo")]
+		public EntitySet<habitacion> habitacions
 		{
 			get
 			{
-				return this._idcli;
+				return this._habitacions;
 			}
 			set
 			{
-				if ((this._idcli != value))
-				{
-					if (this._cliente.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnidcliChanging(value);
-					this.SendPropertyChanging();
-					this._idcli = value;
-					this.SendPropertyChanged("idcli");
-					this.OnidcliChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="serviciousado_factura", Storage="_facturas", ThisKey="id", OtherKey="idS")]
-		public EntitySet<factura> facturas
-		{
-			get
-			{
-				return this._facturas;
-			}
-			set
-			{
-				this._facturas.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="cliente_serviciousado", Storage="_cliente", ThisKey="idcli", OtherKey="id", IsForeignKey=true)]
-		public cliente cliente
-		{
-			get
-			{
-				return this._cliente.Entity;
-			}
-			set
-			{
-				cliente previousValue = this._cliente.Entity;
-				if (((previousValue != value) 
-							|| (this._cliente.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._cliente.Entity = null;
-						previousValue.serviciousados.Remove(this);
-					}
-					this._cliente.Entity = value;
-					if ((value != null))
-					{
-						value.serviciousados.Add(this);
-						this._idcli = value.id;
-					}
-					else
-					{
-						this._idcli = default(System.Guid);
-					}
-					this.SendPropertyChanged("cliente");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="servicio_serviciousado", Storage="_servicio", ThisKey="idser", OtherKey="id", IsForeignKey=true)]
-		public servicio servicio
-		{
-			get
-			{
-				return this._servicio.Entity;
-			}
-			set
-			{
-				servicio previousValue = this._servicio.Entity;
-				if (((previousValue != value) 
-							|| (this._servicio.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._servicio.Entity = null;
-						previousValue.serviciousados.Remove(this);
-					}
-					this._servicio.Entity = value;
-					if ((value != null))
-					{
-						value.serviciousados.Add(this);
-						this._idser = value.id;
-					}
-					else
-					{
-						this._idser = default(int);
-					}
-					this.SendPropertyChanged("servicio");
-				}
+				this._habitacions.Assign(value);
 			}
 		}
 		
@@ -3802,16 +3650,16 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		private void attach_facturas(factura entity)
+		private void attach_habitacions(habitacion entity)
 		{
 			this.SendPropertyChanging();
-			entity.serviciousado = this;
+			entity.tip_hab = this;
 		}
 		
-		private void detach_facturas(factura entity)
+		private void detach_habitacions(habitacion entity)
 		{
 			this.SendPropertyChanging();
-			entity.serviciousado = null;
+			entity.tip_hab = null;
 		}
 	}
 	
@@ -3831,11 +3679,13 @@ namespace HotelManagement.Models
 		
 		private System.DateTime _LastActivityDate;
 		
-		private EntityRef<cliente> _cliente;
+		private EntityRef<usuario> _usuario;
 		
 		private EntityRef<Membership> _Membership;
 		
 		private EntityRef<Profile> _Profile;
+		
+		private EntitySet<reserva> _reservas;
 		
 		private EntitySet<UsersInRole> _UsersInRoles;
 		
@@ -3859,9 +3709,10 @@ namespace HotelManagement.Models
 		
 		public User()
 		{
-			this._cliente = default(EntityRef<cliente>);
+			this._usuario = default(EntityRef<usuario>);
 			this._Membership = default(EntityRef<Membership>);
 			this._Profile = default(EntityRef<Profile>);
+			this._reservas = new EntitySet<reserva>(new Action<reserva>(this.attach_reservas), new Action<reserva>(this.detach_reservas));
 			this._UsersInRoles = new EntitySet<UsersInRole>(new Action<UsersInRole>(this.attach_UsersInRoles), new Action<UsersInRole>(this.detach_UsersInRoles));
 			this._Application = default(EntityRef<Application>);
 			OnCreated();
@@ -3971,31 +3822,31 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_cliente", Storage="_cliente", ThisKey="UserId", OtherKey="id", IsUnique=true, IsForeignKey=false)]
-		public cliente cliente
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_usuario", Storage="_usuario", ThisKey="UserId", OtherKey="id", IsUnique=true, IsForeignKey=false)]
+		public usuario usuario
 		{
 			get
 			{
-				return this._cliente.Entity;
+				return this._usuario.Entity;
 			}
 			set
 			{
-				cliente previousValue = this._cliente.Entity;
+				usuario previousValue = this._usuario.Entity;
 				if (((previousValue != value) 
-							|| (this._cliente.HasLoadedOrAssignedValue == false)))
+							|| (this._usuario.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._cliente.Entity = null;
+						this._usuario.Entity = null;
 						previousValue.User = null;
 					}
-					this._cliente.Entity = value;
+					this._usuario.Entity = value;
 					if ((value != null))
 					{
 						value.User = this;
 					}
-					this.SendPropertyChanged("cliente");
+					this.SendPropertyChanged("usuario");
 				}
 			}
 		}
@@ -4055,6 +3906,19 @@ namespace HotelManagement.Models
 					}
 					this.SendPropertyChanged("Profile");
 				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_reserva", Storage="_reservas", ThisKey="UserId", OtherKey="idusuario")]
+		public EntitySet<reserva> reservas
+		{
+			get
+			{
+				return this._reservas;
+			}
+			set
+			{
+				this._reservas.Assign(value);
 			}
 		}
 		
@@ -4123,6 +3987,18 @@ namespace HotelManagement.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_reservas(reserva entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_reservas(reserva entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
 		}
 		
 		private void attach_UsersInRoles(UsersInRole entity)
@@ -4306,15 +4182,17 @@ namespace HotelManagement.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tip_hab")]
-	public partial class tip_hab : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.archivo")]
+	public partial class archivo : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private int _id;
 		
-		private string _tipo;
+		private string _ruta_fisica;
+		
+		private System.DateTime _fecha;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -4322,11 +4200,13 @@ namespace HotelManagement.Models
     partial void OnCreated();
     partial void OnidChanging(int value);
     partial void OnidChanged();
-    partial void OntipoChanging(string value);
-    partial void OntipoChanged();
+    partial void Onruta_fisicaChanging(string value);
+    partial void Onruta_fisicaChanged();
+    partial void OnfechaChanging(System.DateTime value);
+    partial void OnfechaChanged();
     #endregion
 		
-		public tip_hab()
+		public archivo()
 		{
 			OnCreated();
 		}
@@ -4351,22 +4231,42 @@ namespace HotelManagement.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tipo", DbType="VarChar(25) NOT NULL", CanBeNull=false)]
-		public string tipo
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ruta_fisica", DbType="VarChar(256)")]
+		public string ruta_fisica
 		{
 			get
 			{
-				return this._tipo;
+				return this._ruta_fisica;
 			}
 			set
 			{
-				if ((this._tipo != value))
+				if ((this._ruta_fisica != value))
 				{
-					this.OntipoChanging(value);
+					this.Onruta_fisicaChanging(value);
 					this.SendPropertyChanging();
-					this._tipo = value;
-					this.SendPropertyChanged("tipo");
-					this.OntipoChanged();
+					this._ruta_fisica = value;
+					this.SendPropertyChanged("ruta_fisica");
+					this.Onruta_fisicaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fecha", DbType="Date NOT NULL")]
+		public System.DateTime fecha
+		{
+			get
+			{
+				return this._fecha;
+			}
+			set
+			{
+				if ((this._fecha != value))
+				{
+					this.OnfechaChanging(value);
+					this.SendPropertyChanging();
+					this._fecha = value;
+					this.SendPropertyChanged("fecha");
+					this.OnfechaChanged();
 				}
 			}
 		}
@@ -4389,6 +4289,408 @@ namespace HotelManagement.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.cliente")]
+	public partial class cliente : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private string _nombre;
+		
+		private string _ciudad;
+		
+		private string _estado;
+		
+		private string _pais;
+		
+		private string _nit;
+		
+		private string _telefono;
+		
+		private string _direccion;
+		
+		private string _email;
+		
+		private string _comentarios;
+		
+		private EntityRef<agencia> _agencia;
+		
+		private EntityRef<empresa> _empresa;
+		
+		private EntityRef<persona> _persona;
+		
+		private EntitySet<reserva> _reservas;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnnombreChanging(string value);
+    partial void OnnombreChanged();
+    partial void OnciudadChanging(string value);
+    partial void OnciudadChanged();
+    partial void OnestadoChanging(string value);
+    partial void OnestadoChanged();
+    partial void OnpaisChanging(string value);
+    partial void OnpaisChanged();
+    partial void OnnitChanging(string value);
+    partial void OnnitChanged();
+    partial void OntelefonoChanging(string value);
+    partial void OntelefonoChanged();
+    partial void OndireccionChanging(string value);
+    partial void OndireccionChanged();
+    partial void OnemailChanging(string value);
+    partial void OnemailChanged();
+    partial void OncomentariosChanging(string value);
+    partial void OncomentariosChanged();
+    #endregion
+		
+		public cliente()
+		{
+			this._agencia = default(EntityRef<agencia>);
+			this._empresa = default(EntityRef<empresa>);
+			this._persona = default(EntityRef<persona>);
+			this._reservas = new EntitySet<reserva>(new Action<reserva>(this.attach_reservas), new Action<reserva>(this.detach_reservas));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nombre", DbType="VarChar(70) NOT NULL", CanBeNull=false)]
+		public string nombre
+		{
+			get
+			{
+				return this._nombre;
+			}
+			set
+			{
+				if ((this._nombre != value))
+				{
+					this.OnnombreChanging(value);
+					this.SendPropertyChanging();
+					this._nombre = value;
+					this.SendPropertyChanged("nombre");
+					this.OnnombreChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ciudad", DbType="VarChar(30) NOT NULL", CanBeNull=false)]
+		public string ciudad
+		{
+			get
+			{
+				return this._ciudad;
+			}
+			set
+			{
+				if ((this._ciudad != value))
+				{
+					this.OnciudadChanging(value);
+					this.SendPropertyChanging();
+					this._ciudad = value;
+					this.SendPropertyChanged("ciudad");
+					this.OnciudadChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_estado", DbType="VarChar(30) NOT NULL", CanBeNull=false)]
+		public string estado
+		{
+			get
+			{
+				return this._estado;
+			}
+			set
+			{
+				if ((this._estado != value))
+				{
+					this.OnestadoChanging(value);
+					this.SendPropertyChanging();
+					this._estado = value;
+					this.SendPropertyChanged("estado");
+					this.OnestadoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pais", DbType="VarChar(20) NOT NULL", CanBeNull=false)]
+		public string pais
+		{
+			get
+			{
+				return this._pais;
+			}
+			set
+			{
+				if ((this._pais != value))
+				{
+					this.OnpaisChanging(value);
+					this.SendPropertyChanging();
+					this._pais = value;
+					this.SendPropertyChanged("pais");
+					this.OnpaisChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nit", DbType="VarChar(30)")]
+		public string nit
+		{
+			get
+			{
+				return this._nit;
+			}
+			set
+			{
+				if ((this._nit != value))
+				{
+					this.OnnitChanging(value);
+					this.SendPropertyChanging();
+					this._nit = value;
+					this.SendPropertyChanged("nit");
+					this.OnnitChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_telefono", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
+		public string telefono
+		{
+			get
+			{
+				return this._telefono;
+			}
+			set
+			{
+				if ((this._telefono != value))
+				{
+					this.OntelefonoChanging(value);
+					this.SendPropertyChanging();
+					this._telefono = value;
+					this.SendPropertyChanged("telefono");
+					this.OntelefonoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_direccion", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string direccion
+		{
+			get
+			{
+				return this._direccion;
+			}
+			set
+			{
+				if ((this._direccion != value))
+				{
+					this.OndireccionChanging(value);
+					this.SendPropertyChanging();
+					this._direccion = value;
+					this.SendPropertyChanged("direccion");
+					this.OndireccionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string email
+		{
+			get
+			{
+				return this._email;
+			}
+			set
+			{
+				if ((this._email != value))
+				{
+					this.OnemailChanging(value);
+					this.SendPropertyChanging();
+					this._email = value;
+					this.SendPropertyChanged("email");
+					this.OnemailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_comentarios", DbType="VarChar(500)")]
+		public string comentarios
+		{
+			get
+			{
+				return this._comentarios;
+			}
+			set
+			{
+				if ((this._comentarios != value))
+				{
+					this.OncomentariosChanging(value);
+					this.SendPropertyChanging();
+					this._comentarios = value;
+					this.SendPropertyChanged("comentarios");
+					this.OncomentariosChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="cliente_agencia", Storage="_agencia", ThisKey="id", OtherKey="id", IsUnique=true, IsForeignKey=false)]
+		public agencia agencia
+		{
+			get
+			{
+				return this._agencia.Entity;
+			}
+			set
+			{
+				agencia previousValue = this._agencia.Entity;
+				if (((previousValue != value) 
+							|| (this._agencia.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._agencia.Entity = null;
+						previousValue.cliente = null;
+					}
+					this._agencia.Entity = value;
+					if ((value != null))
+					{
+						value.cliente = this;
+					}
+					this.SendPropertyChanged("agencia");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="cliente_empresa", Storage="_empresa", ThisKey="id", OtherKey="id", IsUnique=true, IsForeignKey=false)]
+		public empresa empresa
+		{
+			get
+			{
+				return this._empresa.Entity;
+			}
+			set
+			{
+				empresa previousValue = this._empresa.Entity;
+				if (((previousValue != value) 
+							|| (this._empresa.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._empresa.Entity = null;
+						previousValue.cliente = null;
+					}
+					this._empresa.Entity = value;
+					if ((value != null))
+					{
+						value.cliente = this;
+					}
+					this.SendPropertyChanged("empresa");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="cliente_persona", Storage="_persona", ThisKey="id", OtherKey="id", IsUnique=true, IsForeignKey=false)]
+		public persona persona
+		{
+			get
+			{
+				return this._persona.Entity;
+			}
+			set
+			{
+				persona previousValue = this._persona.Entity;
+				if (((previousValue != value) 
+							|| (this._persona.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._persona.Entity = null;
+						previousValue.cliente = null;
+					}
+					this._persona.Entity = value;
+					if ((value != null))
+					{
+						value.cliente = this;
+					}
+					this.SendPropertyChanged("persona");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="cliente_reserva", Storage="_reservas", ThisKey="id", OtherKey="idcli")]
+		public EntitySet<reserva> reservas
+		{
+			get
+			{
+				return this._reservas;
+			}
+			set
+			{
+				this._reservas.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_reservas(reserva entity)
+		{
+			this.SendPropertyChanging();
+			entity.cliente = this;
+		}
+		
+		private void detach_reservas(reserva entity)
+		{
+			this.SendPropertyChanging();
+			entity.cliente = null;
 		}
 	}
 }

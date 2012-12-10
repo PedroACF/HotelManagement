@@ -1,0 +1,367 @@
+﻿@model HotelManagement.Models.ReservaHab
+
+@{
+    ViewBag.Title = "Index";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Fecha_I").datepicker({ minDate: '0d' });
+
+        $("#Fecha_F").datepicker({ minDate: '0d' });
+
+        $("#tipocli").attr("value", "1");
+        $("#tabs").tabs({ "disabled": [1, 2, 3] });
+        var days;
+        $("#sig").click(function (e) {
+            e.preventDefault();
+            var diasmes = new Array(0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+            var x = $("#Fecha_I").attr("value");
+            var y = $("#Fecha_F").attr("value");
+            var mes = parseInt(x.charAt(0) + x.charAt(1));
+            var dia = parseInt(x.charAt(3) + x.charAt(4));
+            var anio = parseInt(x.charAt(6) + x.charAt(7) + x.charAt(8) + x.charAt(9));
+            var mes2 = parseInt(y.charAt(0) + y.charAt(1));
+            var dia2 = parseInt(y.charAt(3) + y.charAt(4));
+            var anio2 = parseInt(y.charAt(6) + y.charAt(7) + y.charAt(8) + y.charAt(9));
+            if (anio2 - anio == 0) {
+                if (mes2 - mes == 0) {
+                    days = dia2 - dia + 1;
+                } else {
+
+                    var diasmes1 = 0;
+                    var diasmes2 = 0;
+                    for (var i = 1; i < mes; i++)
+                        diasmes1 += diasmes[i];
+                    diasmes1 += dia;
+                    for (var i = 1; i < mes2; i++)
+                        diasmes2 += diasmes[i];
+                    diasmes2 += dia2;
+                    days = diasmes2 - diasmes1 + 1;
+                }
+            }
+            else {
+                var dias_anios1 = anio * 365;
+                var dias_anios2 = anio2 * 365;
+                for (var i = 1; i < mes; i++)
+                    dias_anios1 += diasmes[i];
+                dias_anios1 += dia;
+                for (var i = 1; i < mes2; i++)
+                    dias_anios2 += diasmes[i];
+                dias_anios2 += dia2;
+                days = dias_anios2 - dias_anios1 + 1;
+            }
+            $("#tabs").tabs({ "disabled": [2] });
+            $("#tabs").tabs({ "selected": [1] });
+            $("#tabs").tabs({ "disabled": [0, 2] });
+            $("#cantidad").attr("value", days);
+
+
+            //filtrar fechas
+            $.post("/Reservas/habitacionesdisponibles", { "fechai": $("#Fecha_I").attr("value"), "fechaf": $("#Fecha_F").attr("value") },
+                function (data) {
+                    //var n = $('tr:last td', $("#mitabla")).length;
+                    var ths = '<tr><th width="100"><h5>Numero</h5></th><th width="100"><h5>Tipo</h5></th><th width="100"><h5>Precio</h5></th><th width="100"><h5>Seleccion</h5></th></tr>';
+                    //$("#mitabla tr").remove();
+                    //$("#mitabla").append(ths);
+                    var ttabla = ths;
+                    var i = 0;
+                    var j = 0;
+                    while (i < data.length) {
+                        var tds = '<tr>';
+                        tds += '<td>' + data[i++] + '</td>';
+                        tds += '<td>' + data[i++] + '</td>';
+                        tds += '<td><span id=' + data[i] + '>' + data[i] + '</span> $ </td>';
+                        i++;
+                        tds += '<td><input type="checkbox" id="' + data[i - 3] + '" class="check" name="checkk' + j + ' " value="' + data[i - 1] + '"></td>';
+                        tds += '</tr>';
+                        //$("#mitabla").html(tds);
+                        //$("#mitabla").append(tds);
+                        ttabla = ttabla + tds;
+                    }
+                    document.getElementById("mitabla").innerHTML = ttabla;
+                }, "json");
+            return false;
+        });
+
+        $("#sig2").click(function () {
+            $("#tabs").tabs({ "disabled": [3] });
+            $("#tabs").tabs({ "selected": [2] });
+            $("#tabs").tabs({ "disabled": [0, 1] });
+        })
+        $("#atras").click(function () {
+            $("#tabs").tabs({ "disabled": [2] });
+            $("#tabs").tabs({ "selected": [0] });
+            $("#tabs").tabs({ "disabled": [1, 2] });
+        })
+        $("#atras2").click(function () {
+            $("#tabs").tabs({ "disabled": [2] });
+            $("#tabs").tabs({ "selected": [1] });
+            $("#tabs").tabs({ "disabled": [0, 2] });
+        })
+        //checked
+        $("table tr td input.check").live("click", function () {
+            /*var cad = $(this).attr("id");       cad = cad.substring(5, 1000);*/
+            var valor = parseInt($("#total").text());
+            var cad = $(this).attr("id");
+            if ($("#" + cad + ":checked").val())                             //if ($("#check" + cad + ":checked").val(
+                valor += parseInt($(this).attr("value")) * days;        //valor += (parseInt($("#pago" + cad).text())) * days;
+            else
+                valor -= parseInt($(this).attr("value")) * days;
+            $("#total").text(valor);
+            $("#idhab").attr("value", cad);
+        })
+        //autocompletes
+        $.post("/Reservas/loadDatanombres", {},
+        function (data) {
+            $("#buscarpersona").autocomplete({ source: data });
+        }, "json");
+        $.post("/Reservas/loadDataEmpresa", {},
+        function (data) {
+            $("#buscarempresa").autocomplete({ source: data });
+        }, "json");
+        $.post("/Reservas/loadDataAgencia", {},
+        function (data) {
+            $("#buscaragencia").autocomplete({ source: data });
+        }, "json");
+        //
+        $("#per_cumple").datepicker();
+        //creamos el dialogo
+        $("#dial").click(function (e) {
+            e.preventDefault();
+            $(".campo").css("width", "350px");
+            $(".campo").css("height", "60px");
+            if ($("#tipocli").attr("value") == '1') {
+                $(".person").css("width", "350px");
+                $(".person").css("height", "60px");
+                $(".person").css("display", "inline-block");
+                $(".agenci").css("display", "none");
+                $(".empres").css("display", "none");
+            }
+            if ($("#tipocli").attr("value") == '2') {
+                $(".empres").css("width", "350px");
+                $(".empres").css("height", "60px");
+                $(".empres").css("display", "inline-block");
+                $(".agenci").css("display", "none");
+                $(".person").css("display", "none");
+            }
+            if ($("#tipocli").attr("value") == '3') {
+                $(".agenci").css("width", "350px");
+                $(".agenci").css("height", "60px");
+                $(".agenci").css("display", "inline-block");
+                $(".empres").css("display", "none");
+                $(".person").css("display", "none");
+            }
+            /*$(".person").css("display", "none");  */
+            $("#dialogo input").attr("size", "35");
+            $(".campo").css("display", "inline-block");
+            $("#dialogo").dialog({ width: "800px", heigth: "800px" });
+        })
+        //envio de formulario a persona
+        $('#formulario').submit(function () {
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                // Mostramos un mensaje con la respuesta de PHP
+                success: function (data) {
+                    //$('#result').html(data);
+                }
+            })
+            alert("Se inserto con exito");
+            $("#dialogo").dialog("close");
+
+            $.post("/Reservas/loadDatanombres", {},
+                function (data) {
+                    $("#buscarpersona").autocomplete({ source: data });
+            }, "json");
+            $.post("/Reservas/loadDataEmpresa", {},
+                function (data) {
+                    $("#buscarempresa").autocomplete({ source: data });
+            }, "json");
+            $.post("/Reservas/loadDataAgencia", {},
+                function (data) {
+                    $("#buscaragencia").autocomplete({ source: data });
+            }, "json");
+            return false;
+        });
+        //para mostrar el autocomplete de persona empresa o agencia
+        $("#clientee1").click(function () {
+            $("#buscarpersona").css("display", "block");
+            $("#buscarempresa").css("display", "none");
+            $("#buscaragencia").css("display", "none");
+            $("#tipocli").attr("value", "1");
+            $("#tipocli2").attr("value", "1");
+        });
+        $("#clientee2").click(function () {
+            $("#buscarpersona").css("display", "none");
+            $("#buscarempresa").css("display", "block");
+            $("#buscaragencia").css("display", "none");
+            $("#tipocli").attr("value", "2");
+            $("#tipocli2").attr("value", "2");
+        });
+        $("#clientee3").click(function () {
+            $("#buscarpersona").css("display", "none");
+            $("#buscarempresa").css("display", "none");
+            $("#buscaragencia").css("display", "block");
+            $("#tipocli").attr("value", "3");
+            $("#tipocli2").attr("value", "3");
+        });
+
+
+        $("#pp").click(function () {
+            alert($("#per_cumple").attr("value"));
+        });
+    });
+</script>
+<h2>Reserva de Habitacion</h2>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+    
+    <fieldset>
+        <legend>Formulario de Registro</legend>
+        <div>
+            <div id="tabs">
+                <ul>
+                    <li>
+                        <a href="#tab1">Fecha de Hospedaje</a>
+                    </li>
+                    <li id="cosa2">
+                        <a href="#tab2">Elegir Habitacion</a>
+                    </li>
+                    <li>
+                        <a href="#tab3">Clientes a Reservar</a>
+                    </li>
+                    
+                </ul>
+                <div id="tab1">
+                <a name="tabnro1"></a>
+                <ol>
+            <li>
+                <h3>Cuando llegas?</h3>
+                @Html.LabelFor(m => m.Fecha_I)
+                @Html.TextBoxFor(m => m.Fecha_I)
+            </li>
+            <li>
+                <h3>Cuando te vas?</h3>
+                @Html.LabelFor(m => m.Fecha_F)
+                @Html.TextBoxFor(m => m.Fecha_F)
+            </li>
+            
+          </ol>
+        @*<input type="submit" value="Reservar Habitacion" />*@
+
+        <a href="#tabnro2" id="sig">Elegir Habitacion---></a>
+
+        </div>
+
+        <div id="tab2">
+            @Html.HiddenFor(m => m.CantD, new { id = "cantidad" })
+            <a name="tabnro2"></a>
+            <h4>Seleccione las habitaciones para la Reserva</h4>
+            <table id="mitabla" border="1" width="400">
+                
+            </table>
+            <!--@*
+            @{int j = 1; List<HotelManagement.Models.ReservaHab> hhab = ViewBag.Lista as List<HotelManagement.Models.ReservaHab>;}
+            @foreach (var i in hhab)
+            {
+                string che = "check" + j;
+                string chec = "cleck" + j;
+                string pago = "pago" + j;
+                <table border="1">
+                <tr>
+                <td  id="@chec">@Html.CheckBoxFor(m => m.HabEleg, new { id = @che, Class = "check" })</td>
+                <td>@i.res.num_hab</td>
+                <td>@i.tipoH</td>
+                
+                
+                <td><span id="@pago">@i.res.tip_pago</span> $us.</td>
+                </tr>
+                
+            
+                </table>
+                j++;
+                }*@-->
+            @*<h3>Estado Reserva</h3>*@
+                @*Html.LabelFor(m => m.estado)*@
+                @*Html.TextBoxFor(m => m.res.estado)<br />
+            <input type="submit" value="Calcular Total a Pagar" /><br />*@
+            <h3>TOTAL <span id="total">0</span> $us.</h3>
+            <a href="#tabnro3" id="sig2">Registrar Cliente--></a>
+            <p align="right"><a href="#tabnro1" id="atras">Atras</a></p>
+        </div>
+        <div id="tab3">
+            <a name="tabnro3"></a>
+            <h3>Reserva a nombre de:</h3>
+            @*<ol>@foreach (var item in ViewBag.p){<li>Nombre @item.Value</li>}</ol>*@
+            <input type="radio" name="clientee" id="clientee1" value="1"  checked />Persona
+            <input type="radio" name="clientee" id="clientee2" value="2" />Empresa
+            <input type="radio" name="clientee" id="clientee3" value="3"/>Agencia<br />
+            @using (Html.BeginForm())
+            {
+                //@Html.TextBox("buscar");
+                @Html.TextBoxFor(a => a.buscarpersona, new { style="display:block"})
+                @Html.TextBoxFor(a => a.buscarempresa, new { style="display:none"})
+                @Html.TextBoxFor(a => a.buscaragencia, new { style="display:none"})
+                @Html.HiddenFor(a=>a.idhab)
+                @Html.HiddenFor(a=>a.tipocli2)
+                @*
+                @Html.HiddenFor(a=>a.fechainii)
+                @Html.HiddenFor(a=>a.fechafinn)*@
+
+                <input type="submit" />
+            }
+            <h3><a href="" id="dial">Registrar Nuevo Usuario</a></h3>
+            <p align="right"><a href="#tabnro2" id="atras2">Atras</a></p>
+        </div>
+    </div>
+    </div>
+    
+    </fieldset>   
+}
+
+<div id="dialogo" style = "display:none">
+    @using (Html.BeginForm("regcliente", "Reservas", FormMethod.Post, new { id = "formulario" }))
+    {
+        <text><h4 class="person">Registrar un Cliente Nuevo</h4></text>
+        <text><h4 class="empres">Registrar una Empresa Nueva</h4></text>
+        <text><h4 class="agenci">Registrar una Agencia Nueva</h4></text><br />
+        <div class="campo">@Html.LabelFor(a => a.cli.Nombre)
+        @Html.TextBoxFor(a => a.cli.Nombre)</div>
+        <div class="person">@Html.LabelFor(a => a.per.apellido)
+        @Html.TextBoxFor(a => a.per.apellido)</div >
+        <div class="person">@Html.LabelFor(a => a.per.ci)
+        @Html.TextBoxFor(a => a.per.ci)</div>
+        <div class="campo">@Html.LabelFor(a => a.cli.Ciudad)
+        @Html.TextBoxFor(a => a.cli.Ciudad)</div>
+        <div class="campo">@Html.LabelFor(a => a.cli.Estadoo)
+        @Html.TextBoxFor(a => a.cli.Estadoo)</div>
+        <div class="campo">@Html.LabelFor(a => a.cli.pais)
+        @Html.TextBoxFor(a => a.cli.pais)</div>
+        <div class="campo">@Html.LabelFor(a => a.cli.nit)
+        @Html.TextBoxFor(a => a.cli.nit)</div>
+        <div class="campo">@Html.LabelFor(a => a.cli.telefono)
+        @Html.TextBoxFor(a => a.cli.telefono)</div>
+        <div class="campo">@Html.LabelFor(a => a.cli.direccion)
+        @Html.TextBoxFor(a => a.cli.direccion)</div>
+        <div class="campo">@Html.LabelFor(a => a.cli.email)
+        @Html.TextBoxFor(a => a.cli.email)</div>
+        <div class="person">@Html.LabelFor(a => a.per.cumple)
+        @Html.TextBoxFor(a => a.per.cumple)</div>
+        <div class="person">@Html.LabelFor(a => a.per.pasaporte)
+        @Html.TextBoxFor(a => a.per.pasaporte)</div>
+        <div class="agenci">@Html.LabelFor(a => a.agen.contacto)
+        @Html.TextBoxFor(a => a.agen.contacto)</div>
+        <div class="empres">@Html.LabelFor(a => a.emp.contacto)
+        @Html.TextBoxFor(a => a.emp.contacto)</div>
+        <div class="empres">@Html.LabelFor(a => a.emp.metodoPago)
+        @Html.TextBoxFor(a => a.emp.metodoPago)</div>
+        <div class="campo">@Html.LabelFor(a => a.cli.comentarios)
+        @Html.TextAreaFor(a => a.cli.comentarios)</div>
+        
+        @Html.HiddenFor(a => a.tipocli)
+        <p id="pp">fecha</p>                                                          
+        <text><input type="submit"/></text>           
+    }
+</div>

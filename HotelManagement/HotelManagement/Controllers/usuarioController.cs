@@ -97,5 +97,16 @@ namespace HotelManagement.Controllers
            db.SubmitChanges();
            return Json(new { success = true });
        }
+
+       public JsonResult DeleteUsuario(string id)
+       {
+           Guid usu = new Guid(id);
+           DataClasses1DataContext db=new DataClasses1DataContext();
+           User us=db.Users.Where(a=>a.UserId==usu).First();
+           db.Users.DeleteOnSubmit(us);
+           db.SubmitChanges();
+           return Json(new{success=true});
+       }
+        
      }
 }
