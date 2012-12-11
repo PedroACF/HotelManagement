@@ -1,0 +1,20 @@
+﻿@model HotelManagement.Models._Habitacion
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Modificar Habitacion</h2>
+
+
+@using (Html.BeginForm()) {
+    
+                <strong>@Html.LabelFor(m=>m.numero)</strong>
+                @Html.TextBoxFor(m => m.numero,new {disabled="disabled"})
+                <strong>@Html.LabelFor(m => m.precio)</strong>
+                @Html.TextBoxFor(m => m.precio)
+                <strong>@Html.LabelFor(m => m.tipo)</strong>
+                @Html.TextBoxFor(m => m.tipo)
+                <strong>@Html.LabelFor(m => m.disponibilidad)</strong>
+                @Html.TextBoxFor(m => m.disponibilidad)
+        <input type="submit" value="Guardar Cambios" />
+}

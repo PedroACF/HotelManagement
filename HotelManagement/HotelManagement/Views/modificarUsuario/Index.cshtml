@@ -1,0 +1,27 @@
+﻿@model HotelManagement.Models.StructUser
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Modificar Usuario</h2>
+
+@using (Html.BeginForm()) {
+    if (ViewBag.gg == Guid.Parse("00000000-0000-0000-0000-000000000000"))
+    {
+        <script>
+            parent.window.location.reload();        
+        </script>
+    }
+    else
+    { 
+                @Html.IdFor(m => m.id);
+                <strong>@Html.LabelFor(m => m.nombre)</strong>
+                @Html.TextBoxFor(m => m.nombre, new {Value=ViewBag.userData.UserName })
+                <strong>@Html.LabelFor(m => m.email)</strong>
+                @Html.TextBoxFor(m => m.email, new { Value=ViewBag.userData.Membership.Email})     
+                //<strong>@Html.LabelFor(m => m.nit)</strong>
+                //@Html.TextBoxFor(m => m.nit, new {Value=ViewBag.userData.usuario.nit} )
+                @Html.TextBoxFor(m => m.id, new { Value=ViewBag.userData.UserId,style = "display:none" })
+        <input type="submit" value="Guardar Cambios" />
+    }
+}
